@@ -1,34 +1,24 @@
 ﻿using System;
 using System.IO;
-
+using System.Collections.Generic;
+using MazeGraphSpace;
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        // Read the text file
-        string[] lines = File.ReadAllLines("test/maze1.txt");
-
-        // Create a 2D matrix to store the data
-        char[,] matrix = new char[lines.Length, lines[0].Split(' ').Length];
-
-        // Fill the matrix with data from the text file
-        for (int i = 0; i < lines.Length; i++)
-        {
-            string[] values = lines[i].Split(' ');
-            for (int j = 0; j < values.Length; j++)
-            {
-                matrix[i, j] = values[j][0];
+        MazeGraph mazeGraph = new MazeGraph();
+        string filename;
+        while (true){
+            Console.Write("Enter filename: ");
+            filename = Console.ReadLine();
+            try {
+                string[] lines = System.IO.File.ReadAllLines("test/" + filename);
+                break;
+            } catch (System.IO.FileNotFoundException) {
+                Console.WriteLine("File not found");
             }
         }
-
-        // Print the matrix to the console
-        for (int i = 0; i < matrix.GetLength(0); i++)
-        {
-            for (int j = 0; j < matrix.GetLength(1); j++)
-            {
-                Console.Write(matrix[i, j] + " ");
-            }
-            Console.WriteLine();
-        }
+        mazeGraph.BuildGraphFromFile("test/" + filename);
+        mazeGraph.PrintGraph();
     }
 }
