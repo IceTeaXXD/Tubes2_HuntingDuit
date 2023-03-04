@@ -12,13 +12,13 @@ class Program
             Console.Write("Enter filename: ");
             filename = Console.ReadLine();
             try {
-                string[] lines = System.IO.File.ReadAllLines("test/" + filename);
+                string[] lines = System.IO.File.ReadAllLines("../test/" + filename);
                 break;
             } catch (System.IO.FileNotFoundException) {
                 Console.WriteLine("File not found");
             }
         }
-        mazeGraph.BuildGraphFromFile("test/" + filename);
+        mazeGraph.BuildGraphFromFile("../test/" + filename);
         mazeGraph.PrintGraph();
     }
 }
