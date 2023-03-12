@@ -1,24 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using MazeGraphSpace;
-class Program
-{
-    static void Main(string[] args)
-    {
-        MazeGraph mazeGraph = new MazeGraph();
-        string filename;
-        while (true){
-            Console.Write("Enter filename: ");
-            filename = Console.ReadLine();
-            try {
-                string[] lines = System.IO.File.ReadAllLines("../test/" + filename);
-                break;
-            } catch (System.IO.FileNotFoundException) {
-                Console.WriteLine("File not found");
-            }
-        }
-        mazeGraph.BuildGraphFromFile("../test/" + filename);
-        mazeGraph.PrintGraph();
+using NodeSpace;
+using GraphSpace;
+
+class Program {
+    static void Main(string[] args) {
+        Graph graph = new Graph();
+        string filename = "../test/maze1.txt";
+        graph.makeGraph(filename);
+
+        // Print adjacency list
+        graph.PrintGraph();
     }
 }
