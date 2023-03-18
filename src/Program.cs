@@ -45,6 +45,16 @@ class Program
         Console.Write("Backtracking Path: ");
         foreach(KeyValuePair<Node,Node> node in map.path) {
             Console.Write(node.Key.val + " ");
+        List<int> visited = new List<int>() {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        Node start = map.nodes.Find(node => node.isStart);
+
+        List<Node> res = new List<Node>();
+        Stack<Node> simpulE = new Stack<Node>();
+        List<Node> hasil = map.dfsres(0, start, visited, res, simpulE);
+
+        Console.WriteLine(hasil.Count);
+        for (int i=0; i<hasil.Count; i++){
+            Console.WriteLine("Hasilnya " + hasil[i].val + " ");
         }
     }
 }

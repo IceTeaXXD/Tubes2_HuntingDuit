@@ -7,8 +7,13 @@ namespace GraphSpace;
 class Graph {
     public List<Node> nodes;
     public Dictionary<Node, List<Node>> adjList;
+<<<<<<< HEAD
     public int treasureCount = 0;
     public List<KeyValuePair<Node,Node>> path = new List<KeyValuePair<Node,Node>>();
+=======
+
+    public static int treasureCount = 0;
+>>>>>>> 9f9c7ad85667043c565fdcc492ac7ffbcb24dbc6
     
     public Graph() {
         nodes = new List<Node>();
@@ -27,7 +32,11 @@ class Graph {
                 string val = row[j];
                 bool isStart = (val == "K");
                 bool isTreasure = (val == "T");
+<<<<<<< HEAD
                 if (isTreasure) {
+=======
+                if(val == "T"){
+>>>>>>> 9f9c7ad85667043c565fdcc492ac7ffbcb24dbc6
                     treasureCount++;
                 }
                 AddNode(i * numCols + j, isStart, isTreasure);
@@ -124,5 +133,63 @@ class Graph {
         }
         
         
+    }
+}
+
+    public List<Node> dfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Stack<Node> simpulE){
+        res.Add(awal);
+        visitedNode[awal.val] = 1;
+        if(awal.isStart){
+            for(int i=0; i<adjList[awal].Count; i++){
+                //push adjacency of the first elemen
+                simpulE.Push(adjList[awal][i]);
+            }
+            return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+        } else {
+            Node temp = simpulE.Pop();
+            int count = 0;
+            bool tai = false, ada = false;
+            for(int i=0; i<adjList[awal].Count; i++){
+                // push adjacency of the first elemen
+                // if it has not visited before
+                if(visitedNode[adjList[awal][i].val] != 1){
+                    simpulE.Push(adjList[awal][i]);
+                    count++;
+                }
+                tai = true;
+            }
+            if(awal.isTreasure){
+                ctr++;
+            }
+            // gaada lagi yang bisa dikunjungin BACKTRACK
+            if (count == 0 && tai == true && (ctr != treasureCount)){
+                int idx = 2;
+                int size = res.Count;
+                while(!ada){
+                    Node hasil = res[size-idx];
+                    res.Add(hasil);
+                    for (int j=0; j<adjList[hasil].Count; j++){
+                        int hai = adjList[hasil][j].val;
+                        if (visitedNode[hai] == 0){
+                            ada = true;
+                            break;
+                        }
+                    }
+                    idx++;
+                }
+            }
+
+            if(ctr != treasureCount){
+                return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+            } else {
+                return res;
+            }
+        }
+        // if(ctr == treasureCount){
+        //     //basis dan kalau stack blom kosong
+        //     return res;
+        // } else{
+            
+        // }
     }
 }
