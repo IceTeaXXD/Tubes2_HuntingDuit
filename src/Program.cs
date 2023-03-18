@@ -20,17 +20,21 @@ class Program
                 Console.WriteLine("File not found");
             }
         }
-        map.PrintGraph();
-        List<int> visited = new List<int>() {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        // map.PrintGraph();
+        List<int> visited = new List<int>();
+        for (int i = 0 ; i < map.nodes.Count ; i++){
+            visited.Add(0);
+        }
         Node start = map.nodes.Find(node => node.isStart);
 
         List<Node> res = new List<Node>();
         Stack<Node> simpulE = new Stack<Node>();
         List<Node> hasil = map.dfsres(0, start, visited, res, simpulE);
 
-        Console.WriteLine(hasil.Count);
+        // Console.WriteLine(hasil.Count);
+        Console.Write("Path : ");
         for (int i=0; i<hasil.Count; i++){
-            Console.WriteLine("Hasilnya " + hasil[i].val + " ");
+            Console.Write(hasil[i].val + " ");
         }
     }
 }
