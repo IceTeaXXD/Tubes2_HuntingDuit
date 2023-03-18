@@ -7,13 +7,9 @@ namespace GraphSpace;
 class Graph {
     public List<Node> nodes;
     public Dictionary<Node, List<Node>> adjList;
-<<<<<<< HEAD
-    public int treasureCount = 0;
     public List<KeyValuePair<Node,Node>> path = new List<KeyValuePair<Node,Node>>();
-=======
 
     public static int treasureCount = 0;
->>>>>>> 9f9c7ad85667043c565fdcc492ac7ffbcb24dbc6
     
     public Graph() {
         nodes = new List<Node>();
@@ -32,11 +28,7 @@ class Graph {
                 string val = row[j];
                 bool isStart = (val == "K");
                 bool isTreasure = (val == "T");
-<<<<<<< HEAD
-                if (isTreasure) {
-=======
                 if(val == "T"){
->>>>>>> 9f9c7ad85667043c565fdcc492ac7ffbcb24dbc6
                     treasureCount++;
                 }
                 AddNode(i * numCols + j, isStart, isTreasure);
@@ -134,7 +126,7 @@ class Graph {
         
         
     }
-}
+
 
     public List<Node> dfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Stack<Node> simpulE){
         res.Add(awal);
