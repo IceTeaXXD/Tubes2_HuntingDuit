@@ -21,5 +21,30 @@ class Program
             }
         }
         map.PrintGraph();
+
+        map.BFS();
+
+        Console.Write("Treasure Path: ");
+        Node lastElem = map.path.Last().Key;
+        List<Node> DFSPath = new List<Node>();
+        DFSPath.Add(lastElem);
+        while(true){
+            lastElem = map.path.Find(x => x.Key == lastElem).Value;
+            DFSPath.Add(lastElem);
+            if (lastElem.isStart) {
+                break;
+            }
+
+        }
+        DFSPath.Reverse();
+        foreach(Node node in DFSPath) {
+            Console.Write(node.val + " ");
+        }
+        Console.WriteLine();
+
+        Console.Write("Backtracking Path: ");
+        foreach(KeyValuePair<Node,Node> node in map.path) {
+            Console.Write(node.Key.val + " ");
+        }
     }
 }

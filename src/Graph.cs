@@ -7,6 +7,8 @@ namespace GraphSpace;
 class Graph {
     public List<Node> nodes;
     public Dictionary<Node, List<Node>> adjList;
+    public int treasureCount = 0;
+    public List<KeyValuePair<Node,Node>> path = new List<KeyValuePair<Node,Node>>();
     
     public Graph() {
         nodes = new List<Node>();
@@ -25,6 +27,9 @@ class Graph {
                 string val = row[j];
                 bool isStart = (val == "K");
                 bool isTreasure = (val == "T");
+                if (isTreasure) {
+                    treasureCount++;
+                }
                 AddNode(i * numCols + j, isStart, isTreasure);
             }
         }
@@ -82,5 +87,42 @@ class Graph {
             }
             Console.WriteLine();
         }
+    }
+
+    public void BFS(){
+        Queue<KeyValuePair<Node,Node>> queue = new Queue<KeyValuePair<Node,Node>>();        
+        int treasures = 0;
+
+        KeyValuePair<Node,Node> startNode = new KeyValuePair<Node,Node>(nodes.Find(node => node.isStart),null);
+        queue.Enqueue(startNode);
+        
+        
+        while (queue.Count > 0) {
+            KeyValuePair<Node,Node>queueElem = queue.Dequeue();
+            Node node = queueElem.Key;
+            if (node.visited) {
+                continue;
+            }
+            node.visited = true;
+            // Console.WriteLine(node.val);
+            if (node.isTreasure) {
+                treasures++;
+                
+                while(queue.Count != 0) {
+                    Node prevNode = queue.Dequeue().Key;
+                }
+            }
+            foreach (Node neighbor in adjList[node]) {
+                KeyValuePair<Node,Node> tempNode = new KeyValuePair<Node,Node>(neighbor,node);
+                queue.Enqueue(tempNode);
+            }
+            path.Add(queueElem);
+            if (treasureCount == treasures) {
+                Console.WriteLine("Found all treasure!");
+                return;
+            }
+        }
+        
+        
     }
 }
