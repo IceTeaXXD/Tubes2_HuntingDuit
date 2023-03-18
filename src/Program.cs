@@ -25,16 +25,31 @@ class Program
         for (int i = 0 ; i < map.nodes.Count ; i++){
             visited.Add(0);
         }
-        Node start = map.nodes.Find(node => node.isStart);
+        map.PrintGraph();
 
-        List<Node> res = new List<Node>();
-        Stack<Node> simpulE = new Stack<Node>();
-        List<Node> hasil = map.dfsres(0, start, visited, res, simpulE);
+        map.BFS();
 
-        // Console.WriteLine(hasil.Count);
-        Console.Write("Path : ");
-        for (int i=0; i<hasil.Count; i++){
-            Console.Write(hasil[i].val + " ");
+        Console.Write("Treasure Path: ");
+        Node lastElem = map.path.Last().Key;
+        List<Node> DFSPath = new List<Node>();
+        DFSPath.Add(lastElem);
+        while(true){
+            lastElem = map.path.Find(x => x.Key == lastElem).Value;
+            DFSPath.Add(lastElem);
+            if (lastElem.isStart) {
+                break;
+            }
+
+        }
+        DFSPath.Reverse();
+        foreach(Node node in DFSPath) {
+            Console.Write(node.val + " ");
+        }
+        Console.WriteLine();
+
+        Console.Write("Backtracking Path: ");
+        foreach(KeyValuePair<Node,Node> node in map.path) {
+            Console.Write(node.Key.val + " ");
         }
     }
 }
