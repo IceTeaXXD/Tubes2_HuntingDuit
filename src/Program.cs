@@ -20,35 +20,44 @@ class Program
                 Console.WriteLine("File not found");
             }
         }
-        // map.PrintGraph();
-        List<int> visited = new List<int>();
+
+        // DFS
+        List<int> path = new List<int>();
         for (int i = 0 ; i < map.nodes.Count ; i++){
-            visited.Add(0);
+            path.Add(0);
         }
-        map.PrintGraph();
+        List<Node> res = new List<Node>();
+        Stack<Node> simpulE = new Stack<Node>();
+        List<Node> hasil = map.dfsres(0,map.nodes[0], path, res,simpulE);
 
+        Console.Write("Treasure Path DFS : ");
+        foreach (Node node in hasil){
+            Console.Write(node.val + " ");
+        }
+        Console.WriteLine("\nNode yang dicek DFS : " + map.nodedfschecked + "");
+
+        // BFS
         map.BFS();
-
-        Console.Write("Treasure Path: ");
+        Console.Write("Treasure Path BFS : ");
         Node lastElem = map.path.Last().Key;
-        List<Node> DFSPath = new List<Node>();
-        DFSPath.Add(lastElem);
+        List<Node> BFSPath = new List<Node>();
+        BFSPath.Add(lastElem);
         while(true){
             lastElem = map.path.Find(x => x.Key == lastElem).Value;
-            DFSPath.Add(lastElem);
-            if (lastElem.isStart) {
+            BFSPath.Add(lastElem);
+            if(lastElem.isStart){
                 break;
             }
-
         }
-        DFSPath.Reverse();
-        foreach(Node node in DFSPath) {
+
+        BFSPath.Reverse();
+        foreach (Node node in BFSPath){
             Console.Write(node.val + " ");
         }
         Console.WriteLine();
 
-        Console.Write("Backtracking Path: ");
-        foreach(KeyValuePair<Node,Node> node in map.path) {
+        Console.Write("Backtracking Path : ");
+        foreach(KeyValuePair<Node,Node> node in map.path){
             Console.Write(node.Key.val + " ");
         }
     }
