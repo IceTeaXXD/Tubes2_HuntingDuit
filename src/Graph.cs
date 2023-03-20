@@ -9,8 +9,7 @@ class Graph {
     public Dictionary<Node, List<Node>> adjList;
     public List<KeyValuePair<Node,Node>> path = new List<KeyValuePair<Node,Node>>();
 
-    public int treasureCount = 0;
-    public int nodedfschecked = 0;
+    public static int treasureCount = 0;
     
     public Graph() {
         nodes = new List<Node>();
@@ -29,7 +28,9 @@ class Graph {
                 string val = row[j];
                 bool isStart = (val == "K");
                 bool isTreasure = (val == "T");
-                if(val == "T") treasureCount++;
+                if(val == "T"){
+                    treasureCount++;
+                }
                 AddNode(i * numCols + j, isStart, isTreasure);
             }
         }
@@ -168,7 +169,6 @@ class Graph {
     public List<Node> dfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Stack<Node> simpulE){
         res.Add(awal);
         visitedNode[awal.val] = 1;
-        nodedfschecked++;
         if(awal.isStart){
             for(int i=0; i<adjList[awal].Count; i++){
                 //push adjacency of the first elemen
