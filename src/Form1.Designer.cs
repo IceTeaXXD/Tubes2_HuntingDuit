@@ -41,6 +41,7 @@
             Input_Label = new Label();
             panel3 = new Panel();
             panel2 = new Panel();
+            Runtime = new Label();
             label5 = new Label();
             Nodes = new Label();
             Steps = new Label();
@@ -207,6 +208,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(190, 158, 130);
+            panel2.Controls.Add(Runtime);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(Nodes);
             panel2.Controls.Add(Steps);
@@ -220,6 +222,17 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1070, 845);
             panel2.TabIndex = 1;
+            // 
+            // Runtime
+            // 
+            Runtime.AutoSize = true;
+            Runtime.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            Runtime.ForeColor = Color.FromArgb(81, 62, 42);
+            Runtime.Location = new Point(303, 632);
+            Runtime.Name = "Runtime";
+            Runtime.Size = new Size(168, 44);
+            Runtime.TabIndex = 12;
+            Runtime.Text = "Runtime : ";
             // 
             // label5
             // 
@@ -362,5 +375,6 @@
         private TextBox delayBox;
         private Label label1;
         private TrackBar outputDelay;
+        private Label Runtime;
     }
 }

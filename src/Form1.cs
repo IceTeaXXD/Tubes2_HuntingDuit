@@ -2,6 +2,7 @@ using System.CodeDom;
 using System.Drawing.Drawing2D;
 using System.Reflection.Metadata;
 using System.Windows.Forms;
+using System.Diagnostics;
 using GraphSpace;
 using NodeSpace;
 using static System.Windows.Forms.LinkLabel;
@@ -147,7 +148,7 @@ namespace Tubes2_HuntingDuit
                 }
                 else
                 {
-                    int green = MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor.G - 50;
+                    int green = MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor.G - 20;
                     if (green < 10) green = 10;
                     else if (green > 255) green = 255;
                     MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.FromArgb(0, green, 0);
@@ -194,6 +195,7 @@ namespace Tubes2_HuntingDuit
             // DFS
             int[] pathresult = new int[row];
             string pathresultStr = "";
+            Stopwatch stopwatch = new Stopwatch();
             if (DFSButton.Checked)
             {
                 List<int> path = new List<int>();
@@ -204,7 +206,9 @@ namespace Tubes2_HuntingDuit
                 List<Node> res = new List<Node>();
                 Stack<Node> simpulE = new Stack<Node>();
                 Node start = map.nodes.Find(x => x.isStart);
+                stopwatch.Start();
                 List<Node> hasil = map.dfsres(0, start, path, res, simpulE);
+                stopwatch.Stop();
 
                 pathresult = new int[hasil.Count];
                 for (int i = 0; i < hasil.Count; i++)
@@ -219,10 +223,12 @@ namespace Tubes2_HuntingDuit
                 {
                     path2.Add(0);
                 }
+
                 List<Node> res2 = new List<Node>();
                 Queue<Node> simpulE2 = new Queue<Node>();
+                stopwatch.Start();
                 List<Node> hasil2 = map.bfsres(0, map.nodes[0], path2, res2, simpulE2);
-
+                stopwatch.Stop();
                 pathresult = new int[hasil2.Count];
                 for (int i = 0; i < hasil2.Count; i++)
                 {
@@ -256,7 +262,7 @@ namespace Tubes2_HuntingDuit
             {
                 pathHash.Add(number);
             }
-
+            Runtime.Text = "Runtime : " + stopwatch.ElapsedMilliseconds.ToString() + " ms";
             Nodes.Text = "Nodes : " + pathHash.Count().ToString();
             filename = "";
         }
@@ -272,12 +278,95 @@ namespace Tubes2_HuntingDuit
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 filename = ofd.FileName;
+                Graph map = new Graph();
+                try
+                {
+                    map.makeGraph(filename);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+                string[] lines;
+                lines = System.IO.File.ReadAllLines(filename);
+                int row = lines.Length;
+                int col = lines[0].Split(' ').Length;
+                MazeGrid.RowHeadersVisible = false;
+                MazeGrid.ColumnHeadersVisible = false;
+                MazeGrid.AllowUserToAddRows = false;
+                MazeGrid.AllowUserToDeleteRows = false;
+                MazeGrid.AllowUserToResizeColumns = false;
+                MazeGrid.AllowUserToResizeRows = false;
+                MazeGrid.DefaultCellStyle.BackColor = Color.Black;
+                MazeGrid.ScrollBars = ScrollBars.None;
+                MazeGrid.TabStop = false;
+                MazeGrid.MultiSelect = false;
+                MazeGrid.ColumnCount = col;
+                MazeGrid.RowCount = row;
+                MazeGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+
+                // Set the height of each row to make them fit the grid
+                int rowHeight = MazeGrid.ClientSize.Height / MazeGrid.RowCount;
+                for (int i = 0; i < MazeGrid.RowCount; i++)
+                {
+                    MazeGrid.Rows[i].Height = rowHeight;
+                }
+
+                // Set the DataGridView properties to make the cells square and fit the grid
+                MazeGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+                MazeGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                MazeGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                MazeGrid.CurrentCell = null;
+                MazeGrid.ReadOnly = true;
+                MazeGrid.Enabled = false;
+
+                // Colorizer
+                int[,] mat = new int[row, col];
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < col; j++)
+                    {
+                        mat[i, j] = 1;
+                    }
+                }
+
+                int[] way = map.way();
+                int[] treasures = map.treasures();
+                for (int i = 0; i < way.Length; i++)
+                {
+                    int x = way[i] / col;
+                    int y = way[i] % col;
+                    mat[x, y] = 0;
+                }
+
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < col; j++)
+                    {
+                        MazeGrid.Rows[i].Cells[j].Value = "";
+                        MazeGrid.Rows[i].Cells[j].ReadOnly = true;
+                        if (mat[i, j] == 1) MazeGrid.Rows[i].Cells[j].Style.BackColor = Color.Black;
+                        else MazeGrid.Rows[i].Cells[j].Style.BackColor = Color.White;
+                    }
+                }
+
+                for (int i = 0; i < treasures.Length; i++)
+                {
+                    int x = treasures[i] / col;
+                    int y = treasures[i] % col;
+                    MazeGrid.Rows[x].Cells[y].Value = "T";
+                    MazeGrid.Rows[x].Cells[y].Style.BackColor = Color.Yellow;
+                    MazeGrid.Rows[x].Cells[y].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
             }
         }
 
         private void outputDelay_Scroll(object sender, EventArgs e)
         {
             delayBox.Text = outputDelay.Value.ToString();
+
         }
 
         private void delayBox_TextChanged(object sender, EventArgs e)
