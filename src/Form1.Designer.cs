@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            FileChoose = new Button();
             SearchButton = new Button();
             DFSButton = new RadioButton();
             BFSButton = new RadioButton();
             Algorithm = new Label();
-            FileInputBox = new TextBox();
-            label1 = new Label();
             Input_Label = new Label();
             panel3 = new Panel();
             panel2 = new Panel();
@@ -56,12 +55,11 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(81, 62, 42);
+            panel1.Controls.Add(FileChoose);
             panel1.Controls.Add(SearchButton);
             panel1.Controls.Add(DFSButton);
             panel1.Controls.Add(BFSButton);
             panel1.Controls.Add(Algorithm);
-            panel1.Controls.Add(FileInputBox);
-            panel1.Controls.Add(label1);
             panel1.Controls.Add(Input_Label);
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Left;
@@ -70,12 +68,24 @@
             panel1.Size = new Size(375, 908);
             panel1.TabIndex = 0;
             // 
+            // FileChoose
+            // 
+            FileChoose.BackColor = Color.FromArgb(190, 158, 130);
+            FileChoose.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            FileChoose.Location = new Point(51, 367);
+            FileChoose.Name = "FileChoose";
+            FileChoose.Size = new Size(282, 37);
+            FileChoose.TabIndex = 12;
+            FileChoose.Text = "Choose File...";
+            FileChoose.UseVisualStyleBackColor = false;
+            FileChoose.Click += FileChoose_Click;
+            // 
             // SearchButton
             // 
             SearchButton.BackColor = Color.FromArgb(190, 158, 130);
             SearchButton.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
             SearchButton.ForeColor = Color.FromArgb(81, 62, 42);
-            SearchButton.Location = new Point(101, 581);
+            SearchButton.Location = new Point(105, 581);
             SearchButton.Margin = new Padding(3, 4, 3, 4);
             SearchButton.Name = "SearchButton";
             SearchButton.Size = new Size(173, 47);
@@ -89,7 +99,7 @@
             DFSButton.AutoSize = true;
             DFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             DFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            DFSButton.Location = new Point(155, 439);
+            DFSButton.Location = new Point(153, 325);
             DFSButton.Margin = new Padding(3, 4, 3, 4);
             DFSButton.Name = "DFSButton";
             DFSButton.Size = new Size(72, 35);
@@ -103,7 +113,7 @@
             BFSButton.AutoSize = true;
             BFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             BFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            BFSButton.Location = new Point(155, 408);
+            BFSButton.Location = new Point(154, 282);
             BFSButton.Margin = new Padding(3, 4, 3, 4);
             BFSButton.Name = "BFSButton";
             BFSButton.Size = new Size(71, 35);
@@ -117,35 +127,11 @@
             Algorithm.AutoSize = true;
             Algorithm.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             Algorithm.ForeColor = Color.FromArgb(230, 211, 179);
-            Algorithm.Location = new Point(121, 363);
+            Algorithm.Location = new Point(116, 229);
             Algorithm.Name = "Algorithm";
             Algorithm.Size = new Size(145, 40);
             Algorithm.TabIndex = 8;
             Algorithm.Text = "Algorithm";
-            // 
-            // FileInputBox
-            // 
-            FileInputBox.BorderStyle = BorderStyle.None;
-            FileInputBox.ForeColor = Color.DarkGray;
-            FileInputBox.Location = new Point(59, 269);
-            FileInputBox.Margin = new Padding(3, 4, 3, 4);
-            FileInputBox.Name = "FileInputBox";
-            FileInputBox.Size = new Size(254, 20);
-            FileInputBox.TabIndex = 7;
-            FileInputBox.Text = "ex : 'maze1.txt'";
-            FileInputBox.Enter += FileInputBox_Enter;
-            FileInputBox.Leave += FileInputBox_Leave;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.FromArgb(230, 211, 179);
-            label1.Location = new Point(121, 224);
-            label1.Name = "label1";
-            label1.Size = new Size(136, 40);
-            label1.TabIndex = 7;
-            label1.Text = "Filename";
             // 
             // Input_Label
             // 
@@ -309,8 +295,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Label Input_Label;
         private Label Output_Label;
-        private TextBox FileInputBox;
-        private Label label1;
         private RadioButton DFSButton;
         private RadioButton BFSButton;
         private Label Algorithm;
@@ -320,5 +304,6 @@
         private Label label5;
         private Label label4;
         private Label label3;
+        private Button FileChoose;
     }
 }

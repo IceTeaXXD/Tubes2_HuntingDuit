@@ -10,6 +10,7 @@ namespace Tubes2_HuntingDuit
 {
     public partial class Form1 : Form
     {
+        public string filename = "";
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +28,7 @@ namespace Tubes2_HuntingDuit
             MazeGrid.ScrollBars = ScrollBars.None;
             MazeGrid.TabStop = false;
             MazeGrid.MultiSelect = false;
-
+            MazeGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
 
             // Define the maze
             int[,] maze = new int[,]
@@ -53,15 +54,16 @@ namespace Tubes2_HuntingDuit
             MazeGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             MazeGrid.CurrentCell = null;
 
-            MazeGrid.ReadOnly = true; // Set the DataGridView to read-only
+            MazeGrid.ReadOnly = true;
             MazeGrid.Enabled = false;
+
             // Populate the DataGridView with the maze
             for (int i = 0; i < maze.GetLength(0); i++)
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
-                    MazeGrid.Rows[i].Cells[j].Value = ""; // Clear any existing text
-                    MazeGrid.Rows[i].Cells[j].ReadOnly = true; // Set the cell to read-only
+                    MazeGrid.Rows[i].Cells[j].Value = "";
+                    MazeGrid.Rows[i].Cells[j].ReadOnly = true;
                     MazeGrid.Rows[i].Cells[j].Style.BackColor = maze[i, j] == 1 ? Color.Black : Color.White;
                 }
             }
@@ -79,8 +81,9 @@ namespace Tubes2_HuntingDuit
             MazeGrid.ScrollBars = ScrollBars.None;
             MazeGrid.TabStop = false;
             MazeGrid.MultiSelect = false;
-            MazeGrid.ColumnCount = row;
-            MazeGrid.RowCount = col;
+            MazeGrid.ColumnCount = col;
+            MazeGrid.RowCount = row;
+            MazeGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
 
             // Set the height of each row to make them fit the grid
             int rowHeight = MazeGrid.ClientSize.Height / MazeGrid.RowCount;
@@ -94,7 +97,7 @@ namespace Tubes2_HuntingDuit
             MazeGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             MazeGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             MazeGrid.CurrentCell = null;
-            MazeGrid.ReadOnly = true; // Set the DataGridView to read-only
+            MazeGrid.ReadOnly = true;
             MazeGrid.Enabled = false;
 
             // Colorizer
@@ -130,7 +133,7 @@ namespace Tubes2_HuntingDuit
             {
                 int x = treasures[i] / col;
                 int y = treasures[i] % col;
-                MazeGrid.Rows[x].Cells[y].Value = "Treasure";
+                MazeGrid.Rows[x].Cells[y].Value = "T";
                 MazeGrid.Rows[x].Cells[y].Style.BackColor = Color.Yellow;
                 MazeGrid.Rows[x].Cells[y].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -147,28 +150,10 @@ namespace Tubes2_HuntingDuit
             MazeReset();
         }
 
-        private void FileInputBox_Enter(object sender, EventArgs e)
-        {
-            if (FileInputBox.Text == "ex : 'maze1.txt'")
-            {
-                FileInputBox.Text = "";
-                FileInputBox.ForeColor = Color.Black;
-            }
-        }
-
-        private void FileInputBox_Leave(object sender, EventArgs e)
-        {
-            if (FileInputBox.Text == "")
-            {
-                FileInputBox.Text = "ex : 'maze1.txt'";
-                FileInputBox.ForeColor = Color.DarkGray;
-            }
-        }
-
         private void SearchButton_Click(object sender, EventArgs e)
         {
             MazeReset();
-            if (FileInputBox.Text == "ex : 'maze1.txt'")
+            if (filename == "")
             {
                 MessageBox.Show("Please input a filename first!");
                 return;
@@ -180,18 +165,9 @@ namespace Tubes2_HuntingDuit
                 return;
             }
             string[] lines;
-            try
-            {
-                lines = System.IO.File.ReadAllLines("../../../../test/" + FileInputBox.Text);
-
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                MessageBox.Show("File not found");
-                return;
-            }
+            lines = System.IO.File.ReadAllLines(filename);
             Graph map = new Graph();
-            map.makeGraph("../../../../test/" + FileInputBox.Text);
+            map.makeGraph(filename);
             int row = lines.Length;
             int col = lines[0].Split(' ').Length;
 
@@ -216,7 +192,6 @@ namespace Tubes2_HuntingDuit
                     pathresultStr += node.val.ToString() + " ";
                 }
 
-                // MessageBox.Show("Treasure Path DFS : " + pathresultStr);
                 matToGird(pathresult, map.way(), map.treasures(), row, col);
             }
             else if (BFSButton.Checked)
@@ -236,31 +211,22 @@ namespace Tubes2_HuntingDuit
                     pathresult[hasil2.IndexOf(node)] = node.val;
                     pathresultStr += node.val.ToString() + " ";
                 }
-
-                // map.BFS();
-                // Console.Write("Treasure Path BFS : ");
-                // Node lastElem = map.path.Last().Key;
-                // List<Node> BFSPath = new List<Node>();
-                // BFSPath.Add(lastElem);
-                // while (true)
-                // {
-                //     lastElem = map.path.Find(x => x.Key == lastElem).Value;
-                //     BFSPath.Add(lastElem);
-                //     if (lastElem.isStart)
-                //     {
-                //         break;
-                //     }
-                // }
-
-                // BFSPath.Reverse();
-                // pathresult = new int[BFSPath.Count];
-                // foreach (Node node in BFSPath)
-                // {
-                //     pathresult[BFSPath.IndexOf(node)] = node.val;
-                //     pathresultStr += node.val.ToString() + " ";
-                // }
-                // MessageBox.Show("Treasure Path BFS : " + pathresultStr);
                 matToGird(pathresult, map.way(), map.treasures(), row, col);
+                filename = "";
+            }
+        }
+
+        private void FileChoose_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.AddExtension = true;
+            ofd.Multiselect = false;
+            ofd.Filter = "Text Files (*.txt)|*.txt";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                filename = ofd.FileName;
             }
         }
     }

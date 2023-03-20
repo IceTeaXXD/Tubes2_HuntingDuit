@@ -1,4 +1,4 @@
-﻿namespace Tubes2_HuntingDuit
+namespace Tubes2_HuntingDuit
 {
     internal static class Program
     {
