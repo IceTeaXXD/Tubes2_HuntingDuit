@@ -27,6 +27,9 @@ class Graph {
             string[] row = lines[i].Split(' ');
             for (int j = 0; j < numCols; j++) {
                 string val = row[j];
+                if (val != "X" && val != "K" && val != "T" && val != "R") {
+                    throw new Exception("Invalid input file");
+                }
                 bool isStart = (val == "K");
                 bool isTreasure = (val == "T");
                 if(val == "T") treasureCount++;
