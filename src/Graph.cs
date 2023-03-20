@@ -88,7 +88,45 @@ class Graph {
             Console.WriteLine();
         }
     }
+    public int[] way(){
+        int numOfPath = 0; // numOfPath is the nodes that have list of node in the adjList dictionary
+        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
+            if (kvp.Value.Count != 0){
+                numOfPath++;
+            }
+        }
 
+        int[] way = new int[numOfPath];
+        int i = 0;
+        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
+            if (kvp.Value.Count != 0){
+                way[i] = kvp.Key.val;
+                i++;
+            }
+        }
+
+        return way;
+    }
+
+    public int[] treasures(){
+        int numOfTreasure = 0; // numOfTreasure is the nodes that have isTreasure = true
+        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
+            if (kvp.Key.isTreasure){
+                numOfTreasure++;
+            }
+        }
+
+        int[] treasure = new int[numOfTreasure];
+        int i = 0;
+        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
+            if (kvp.Key.isTreasure){
+                treasure[i] = kvp.Key.val;
+                i++;
+            }
+        }
+
+        return treasure;
+    }
     public void BFS(){
         Queue<KeyValuePair<Node,Node>> queue = new Queue<KeyValuePair<Node,Node>>();        
         int treasures = 0;
@@ -177,11 +215,55 @@ class Graph {
                 return res;
             }
         }
-        // if(ctr == treasureCount){
-        //     //basis dan kalau stack blom kosong
-        //     return res;
-        // } else{
+    }
+
+    public List<Node> bfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Queue<Node> simpulE){
+        res.Add(awal);
+        visitedNode[awal.val] = 1;
+        nodedfschecked++;
+        if(awal.isStart){
+            for(int i=0; i<adjList[awal].Count; i++){
+                //push adjacency of the first elemen
+                simpulE.Enqueue(adjList[awal][i]);
+            }
+            return bfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+        } else {
+            Node temp = simpulE.Dequeue();
+            int count = 0;
+            bool ada = false;
+            for(int i=0; i<adjList[awal].Count; i++){
+                // push adjacency of the first elemen
+                // if it has not visited before
+                if(visitedNode[adjList[awal][i].val] != 1){
+                    simpulE.Enqueue(adjList[awal][i]);
+                    count++;
+                }
+            }
+            if(awal.isTreasure){
+                ctr++;
+            }
             
-        // }
+            if(res.Count >= 3 && ctr != treasureCount){
+                int idx = 2;
+                int size = res.Count;
+                while(!ada){
+                    Node hasil = res[size-idx];
+                    res.Add(hasil);
+                    for(int j=0; j<adjList[hasil].Count; j++){
+                        if(adjList[hasil][j].val == simpulE.Peek().val){
+                            ada = true;
+                            break;
+                        }
+                    }
+                    idx++;
+                }
+            }
+
+            if(ctr != treasureCount){
+                return bfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+            } else {
+                return res;
+            }
+        }
     }
 }
