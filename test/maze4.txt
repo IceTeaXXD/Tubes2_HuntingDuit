@@ -4,8 +4,3 @@ X R R X R X R T X R X
 X X R X R X R X X R X
 T R R R T X R T X T X
 X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
