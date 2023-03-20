@@ -1,43 +1,38 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {}
+    "net6.0-windows7.0": {}
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    "net7.0": []
+    "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\alilo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\ahmad\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alilo\\OneDrive\\Documents\\KULIAH\\Tingkat 2\\Stima\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
+      "projectUniqueName": "C:\\File\\Nadil\\STEI ITB\\Semester 4\\Tubes\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
       "projectName": "Tubes2_HuntingDuit",
-      "projectPath": "C:\\Users\\alilo\\OneDrive\\Documents\\KULIAH\\Tingkat 2\\Stima\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
-      "packagesPath": "C:\\Users\\alilo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alilo\\OneDrive\\Documents\\KULIAH\\Tingkat 2\\Stima\\Tubes2_HuntingDuit\\src\\obj\\",
+      "projectPath": "C:\\File\\Nadil\\STEI ITB\\Semester 4\\Tubes\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
+      "packagesPath": "C:\\Users\\ahmad\\.nuget\\packages\\",
+      "outputPath": "C:\\File\\Nadil\\STEI ITB\\Semester 4\\Tubes\\Tubes2_HuntingDuit\\src\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alilo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\ahmad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net7.0"
+        "net6.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "projectReferences": {}
         }
       },
@@ -48,8 +43,8 @@
       }
     },
     "frameworks": {
-      "net7.0": {
-        "targetAlias": "net7.0",
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
         "imports": [
           "net461",
           "net462",
@@ -61,12 +56,33 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.15, 6.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.15, 6.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.15, 6.0.15]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.15, 6.0.15]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WindowsForms": {
+            "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
