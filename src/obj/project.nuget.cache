@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z2nnQTP3hBj2GvGjwdBO1vFQXnipkfzm0kqIxfjY7guqsSMXJ+2Fy8MmHq/Xf3+Wx0bfccDLLpPDPNFv6G053A==",
+  "dgSpecHash": "LaFzCll0WWU0MVgwT1nEw4j74lDMLu2Dq8kNSnx2g8DrTVX6T87PQMcVdJeavTE+pyFPsZmhvv7Hm+hnFGHhyg==",
   "success": true,
-  "projectFilePath": "C:\\File\\Nadil\\STEI ITB\\Semester 4\\Tubes\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.15\\microsoft.windowsdesktop.app.ref.6.0.15.nupkg.sha512",
-    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.15\\microsoft.netcore.app.ref.6.0.15.nupkg.sha512",
-    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.15\\microsoft.aspnetcore.app.ref.6.0.15.nupkg.sha512",
-    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.15\\microsoft.netcore.app.host.win-x64.6.0.15.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\alilo\\OneDrive\\Documents\\KULIAH\\Tingkat 2\\Stima\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
