@@ -140,14 +140,26 @@ namespace Tubes2_HuntingDuit
 
             for (int i = 0; i < path.Length; i++)
             {
-                await Task.Delay(300);
-                MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.Green;
+                await Task.Delay(outputDelay.Value);
+                if (MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.White || MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.Yellow)
+                {
+                    MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.FromArgb(0, 255, 0);
+                }
+                else
+                {
+                    int green = MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor.G - 50;
+                    if (green < 10) green = 10;
+                    else if (green > 255) green = 255;
+                    MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.FromArgb(0, green, 0);
+                }
             }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             MazeReset();
+            delayBox.Text = "0";
+            outputDelay.Value = 0;
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -167,12 +179,20 @@ namespace Tubes2_HuntingDuit
             string[] lines;
             lines = System.IO.File.ReadAllLines(filename);
             Graph map = new Graph();
-            map.makeGraph(filename);
+            try
+            {
+                map.makeGraph(filename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
             int row = lines.Length;
             int col = lines[0].Split(' ').Length;
 
             // DFS
-            int[] pathresult = new int[map.nodes.Count];
+            int[] pathresult = new int[row];
             string pathresultStr = "";
             if (DFSButton.Checked)
             {
@@ -183,16 +203,14 @@ namespace Tubes2_HuntingDuit
                 }
                 List<Node> res = new List<Node>();
                 Stack<Node> simpulE = new Stack<Node>();
-                List<Node> hasil = map.dfsres(0, map.nodes[0], path, res, simpulE);
+                Node start = map.nodes.Find(x => x.isStart);
+                List<Node> hasil = map.dfsres(0, start, path, res, simpulE);
 
                 pathresult = new int[hasil.Count];
-                foreach (Node node in hasil)
+                for (int i = 0; i < hasil.Count; i++)
                 {
-                    pathresult[hasil.IndexOf(node)] = node.val;
-                    pathresultStr += node.val.ToString() + " ";
+                    pathresult[i] = hasil[i].val;
                 }
-
-                matToGird(pathresult, map.way(), map.treasures(), row, col);
             }
             else if (BFSButton.Checked)
             {
@@ -206,14 +224,41 @@ namespace Tubes2_HuntingDuit
                 List<Node> hasil2 = map.bfsres(0, map.nodes[0], path2, res2, simpulE2);
 
                 pathresult = new int[hasil2.Count];
-                foreach (Node node in hasil2)
+                for (int i = 0; i < hasil2.Count; i++)
                 {
-                    pathresult[hasil2.IndexOf(node)] = node.val;
-                    pathresultStr += node.val.ToString() + " ";
+                    pathresult[i] = hasil2[i].val;
                 }
-                matToGird(pathresult, map.way(), map.treasures(), row, col);
-                filename = "";
             }
+            for (int i = 1; i < pathresult.Length; i++)
+            {
+                if (pathresult[i] - pathresult[i - 1] == 1)
+                {
+                    pathresultStr += "R ";
+                }
+                else if (pathresult[i] - pathresult[i - 1] == -1)
+                {
+                    pathresultStr += "L ";
+                }
+                else if (pathresult[i] - pathresult[i - 1] == col)
+                {
+                    pathresultStr += "D ";
+                }
+                else if (pathresult[i - 1] - pathresult[i] == col)
+                {
+                    pathresultStr += "U ";
+                }
+            }
+            matToGird(pathresult, map.way(), map.treasures(), row, col);
+            Route.Text = "Route  : " + pathresultStr;
+            Steps.Text = "Steps  : " + pathresult.Count().ToString();
+            HashSet<int> pathHash = new HashSet<int>();
+            foreach (int number in pathresult)
+            {
+                pathHash.Add(number);
+            }
+
+            Nodes.Text = "Nodes : " + pathHash.Count().ToString();
+            filename = "";
         }
 
         private void FileChoose_Click(object sender, EventArgs e)
@@ -228,6 +273,28 @@ namespace Tubes2_HuntingDuit
             {
                 filename = ofd.FileName;
             }
+        }
+
+        private void outputDelay_Scroll(object sender, EventArgs e)
+        {
+            delayBox.Text = outputDelay.Value.ToString();
+        }
+
+        private void delayBox_TextChanged(object sender, EventArgs e)
+        {
+            if (delayBox.Text == "")
+            {
+                delayBox.Text = "0";
+            }
+            else if (int.Parse(delayBox.Text) < 0)
+            {
+                delayBox.Text = "0";
+            }
+            else if (int.Parse(delayBox.Text) > 1000)
+            {
+                delayBox.Text = "1000";
+            }
+            outputDelay.Value = int.Parse(delayBox.Text);
         }
     }
 }
