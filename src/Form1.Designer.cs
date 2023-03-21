@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            file = new Label();
             label6 = new Label();
             delayBox = new TextBox();
             label1 = new Label();
@@ -61,6 +62,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(81, 62, 42);
+            panel1.Controls.Add(file);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(delayBox);
             panel1.Controls.Add(label1);
@@ -78,12 +80,23 @@
             panel1.Size = new Size(375, 845);
             panel1.TabIndex = 0;
             // 
+            // file
+            // 
+            file.AutoSize = true;
+            file.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            file.ForeColor = Color.FromArgb(230, 211, 179);
+            file.Location = new Point(56, 360);
+            file.Name = "file";
+            file.Size = new Size(136, 33);
+            file.TabIndex = 15;
+            file.Text = "Filename : ";
+            // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.FromArgb(230, 211, 179);
-            label6.Location = new Point(211, 473);
+            label6.Location = new Point(216, 516);
             label6.Name = "label6";
             label6.Size = new Size(57, 40);
             label6.TabIndex = 14;
@@ -92,7 +105,7 @@
             // delayBox
             // 
             delayBox.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
-            delayBox.Location = new Point(117, 472);
+            delayBox.Location = new Point(105, 517);
             delayBox.Margin = new Padding(3, 4, 3, 4);
             delayBox.Name = "delayBox";
             delayBox.Size = new Size(87, 38);
@@ -104,7 +117,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.FromArgb(230, 211, 179);
-            label1.Location = new Point(105, 432);
+            label1.Location = new Point(105, 472);
             label1.Name = "label1";
             label1.Size = new Size(189, 40);
             label1.TabIndex = 13;
@@ -112,11 +125,11 @@
             // 
             // outputDelay
             // 
-            outputDelay.Location = new Point(105, 518);
+            outputDelay.Location = new Point(90, 568);
             outputDelay.Margin = new Padding(3, 4, 3, 4);
             outputDelay.Maximum = 1000;
             outputDelay.Name = "outputDelay";
-            outputDelay.Size = new Size(189, 56);
+            outputDelay.Size = new Size(198, 56);
             outputDelay.TabIndex = 12;
             outputDelay.Value = 10;
             outputDelay.Scroll += outputDelay_Scroll;
@@ -125,7 +138,7 @@
             // 
             FileChoose.BackColor = Color.FromArgb(190, 158, 130);
             FileChoose.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            FileChoose.Location = new Point(51, 367);
+            FileChoose.Location = new Point(53, 411);
             FileChoose.Name = "FileChoose";
             FileChoose.Size = new Size(282, 43);
             FileChoose.TabIndex = 12;
@@ -138,7 +151,7 @@
             SearchButton.BackColor = Color.FromArgb(190, 158, 130);
             SearchButton.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
             SearchButton.ForeColor = Color.FromArgb(81, 62, 42);
-            SearchButton.Location = new Point(105, 600);
+            SearchButton.Location = new Point(105, 631);
             SearchButton.Margin = new Padding(3, 4, 3, 4);
             SearchButton.Name = "SearchButton";
             SearchButton.Size = new Size(174, 47);
@@ -152,7 +165,7 @@
             DFSButton.AutoSize = true;
             DFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             DFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            DFSButton.Location = new Point(153, 325);
+            DFSButton.Location = new Point(151, 296);
             DFSButton.Margin = new Padding(3, 4, 3, 4);
             DFSButton.Name = "DFSButton";
             DFSButton.Size = new Size(72, 35);
@@ -166,7 +179,7 @@
             BFSButton.AutoSize = true;
             BFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             BFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            BFSButton.Location = new Point(154, 283);
+            BFSButton.Location = new Point(151, 264);
             BFSButton.Margin = new Padding(3, 4, 3, 4);
             BFSButton.Name = "BFSButton";
             BFSButton.Size = new Size(71, 35);
@@ -180,7 +193,7 @@
             Algorithm.AutoSize = true;
             Algorithm.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             Algorithm.ForeColor = Color.FromArgb(230, 211, 179);
-            Algorithm.Location = new Point(117, 229);
+            Algorithm.Location = new Point(117, 219);
             Algorithm.Name = "Algorithm";
             Algorithm.Size = new Size(145, 40);
             Algorithm.TabIndex = 8;
@@ -337,6 +350,7 @@
             ClientSize = new Size(1445, 845);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            MaximizeBox = false;
             Name = "Form1";
             Text = "Hunting Duit";
             Load += Form1_Load;
@@ -376,5 +390,6 @@
         private Label label1;
         private TrackBar outputDelay;
         private Label Runtime;
+        private Label file;
     }
 }

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using GraphSpace;
 using NodeSpace;
 using static System.Windows.Forms.LinkLabel;
+using System.CodeDom.Compiler;
 
 namespace Tubes2_HuntingDuit
 {
@@ -139,21 +140,54 @@ namespace Tubes2_HuntingDuit
                 MazeGrid.Rows[x].Cells[y].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
+            int maxOcc = 0;
+            for (int i = 0; i < path.Length; i++)
+            {
+                int occ = 0;
+                for (int j = 0; j < path.Length; j++)
+                {
+                    if (path[i] == path[j]) occ++;
+                }
+                if (occ > maxOcc) maxOcc = occ;
+            }
+            //MessageBox.Show(maxOcc.ToString());
+            int dec = (235 / maxOcc) - 10;
+            int green = 0;
             for (int i = 0; i < path.Length; i++)
             {
                 await Task.Delay(outputDelay.Value);
-                if (MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.White || MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.Yellow)
+                if (i == 0)
                 {
-                    MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.FromArgb(0, 255, 0);
+                    MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.Blue;
                 }
                 else
                 {
-                    int green = MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor.G - 20;
-                    if (green < 10) green = 10;
-                    else if (green > 255) green = 255;
-                    MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.FromArgb(0, green, 0);
+                    if (MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.White || MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor == Color.Yellow)
+                    {
+                        MazeGrid.Rows[path[i - 1] / col].Cells[path[i - 1] % col].Style.BackColor = Color.FromArgb(0, 255, 0);
+                        if (green != 0)
+                        {
+                            if (green < 10) green = 10;
+                            MazeGrid.Rows[path[i - 1] / col].Cells[path[i - 1] % col].Style.BackColor = Color.FromArgb(0, green, 0);
+                        }
+                        MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.Blue;
+                        green = 0;
+                    }
+                    else
+                    {
+                        MazeGrid.Rows[path[i - 1] / col].Cells[path[i - 1] % col].Style.BackColor = Color.FromArgb(0, 255, 0);
+                        if (green != 0)
+                        {
+                            if (green < 20) green = 20;
+                            MazeGrid.Rows[path[i - 1] / col].Cells[path[i - 1] % col].Style.BackColor = Color.FromArgb(0, green, 0);
+                        }
+                        green = MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor.G - 75;
+                        MazeGrid.Rows[path[i] / col].Cells[path[i] % col].Style.BackColor = Color.Blue;
+                    }
                 }
             }
+            await Task.Delay(outputDelay.Value);
+            MazeGrid.Rows[path[path.Length - 1] / col].Cells[path[path.Length - 1] % col].Style.BackColor = Color.FromArgb(0, 255, 0);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -278,6 +312,7 @@ namespace Tubes2_HuntingDuit
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 filename = ofd.FileName;
+                file.Text = "Filename : " + Path.GetFileName(filename);
                 Graph map = new Graph();
                 try
                 {
