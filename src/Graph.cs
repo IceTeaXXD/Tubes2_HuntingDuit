@@ -127,61 +127,188 @@ class Graph {
     }
 
 
-    public List<Node> dfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Stack<Node> simpulE){
-        res.Add(awal);
-        visitedNode[awal.val] = 1;
-        nodedfschecked++;
+    // public List<Node> dfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Stack<Node> simpulE){
+    //     res.Add(awal);
+    //     visitedNode[awal.val] = 1;
+    //     nodedfschecked++;
+    //     if(awal.isStart){
+    //         for(int i=0; i<adjList[awal].Count; i++){
+    //             //push adjacency of the first elemen
+    //             simpulE.Push(adjList[awal][i]);
+    //         }
+    //         return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+    //     } else {
+    //         Node temp = simpulE.Pop();
+    //         int count = 0;
+    //         bool tai = false, ada = false;
+    //         for(int i=0; i<adjList[awal].Count; i++){
+    //             // push adjacency of the first elemen
+    //             // if it has not visited before
+    //             if(visitedNode[adjList[awal][i].val] != 1){
+    //                 simpulE.Push(adjList[awal][i]);
+    //                 count++;
+    //             }
+    //             tai = true;
+    //         }
+    //         if(awal.isTreasure){
+    //             ctr++;
+    //         }
+    //         // gaada lagi yang bisa dikunjungin BACKTRACK
+    //         if (count == 0 && tai == true && (ctr != treasureCount)){
+    //             int idx = 2;
+    //             int size = res.Count;
+    //             while(!ada){
+    //                 Node hasil = res[size-idx];
+    //                 res.Add(hasil);
+    //                 for (int j=0; j<adjList[hasil].Count; j++){
+    //                     int hai = adjList[hasil][j].val;
+    //                     if (visitedNode[hai] == 0){
+    //                         ada = true;
+    //                         break;
+    //                     }
+    //                 }
+    //                 idx++;
+    //             }
+    //         }
+
+    //         if(ctr != treasureCount){
+    //             return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
+    //         } else {
+    //             return res;
+    //         }
+    //     }
+    //     // if(ctr == treasureCount){
+    //     //     //basis dan kalau stack blom kosong
+    //     //     return res;
+    //     // } else{
+            
+    //     // }
+    // }
+    public Tuple<List<Node>, List<int>> TSPDFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
         if(awal.isStart){
-            for(int i=0; i<adjList[awal].Count; i++){
-                //push adjacency of the first elemen
-                simpulE.Push(adjList[awal][i]);
-            }
-            return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
-        } else {
-            Node temp = simpulE.Pop();
+            res.Add(awal);
+            return new Tuple<List<Node>, List<int>> (res, visual);
+        } else{
             int count = 0;
             bool tai = false, ada = false;
-            for(int i=0; i<adjList[awal].Count; i++){
+            for(int i=adjList[awal].Count-1; i>=0; i--){
                 // push adjacency of the first elemen
                 // if it has not visited before
                 if(visitedNode[adjList[awal][i].val] != 1){
                     simpulE.Push(adjList[awal][i]);
                     count++;
+                } else{
                 }
                 tai = true;
             }
-            if(awal.isTreasure){
-                ctr++;
-            }
+            res.Add(awal);
+            visual.Add(0);
+            visitedNode[awal.val] = 1;
             // gaada lagi yang bisa dikunjungin BACKTRACK
-            if (count == 0 && tai == true && (ctr != treasureCount)){
+            Node fix = res[res.Count-1];
+            if (count == 0 && tai == true){
                 int idx = 2;
                 int size = res.Count;
                 while(!ada){
                     Node hasil = res[size-idx];
                     res.Add(hasil);
+                    visual.Add(1);
                     for (int j=0; j<adjList[hasil].Count; j++){
                         int hai = adjList[hasil][j].val;
                         if (visitedNode[hai] == 0){
                             ada = true;
+                            fix = adjList[hasil][j];
                             break;
                         }
                     }
                     idx++;
                 }
             }
-
-            if(ctr != treasureCount){
-                return dfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
-            } else {
-                return res;
+            if (ada){
+                return TSPDFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
+            } else{
+                return TSPDFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
             }
         }
-        // if(ctr == treasureCount){
-        //     //basis dan kalau stack blom kosong
-        //     return res;
-        // } else{
-            
-        // }
+    }
+    public List<int> treasures(){
+        List<int> treasure = new List<int>();
+        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
+            if (kvp.Key.isTreasure){
+                treasure.Add(kvp.Key.val);
+            }
+        }
+
+        return treasure;
+    }
+
+    public List<int> removeTreasure (List<int> temp, Node n){
+        temp.RemoveAll(r => r == n.val);
+        return temp;
+    }
+
+    public Tuple<List<Node>, List<int>> DFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
+        if(tc.Count == 0){
+            //basis dan kalau stack blom kosong
+            return new Tuple<List<Node>, List<int>> (res, visual);
+        } else{
+            res.Add(awal);
+            visual.Add(0);
+            visitedNode[awal.val] = 1;
+            nodedfschecked++;
+            if(awal.isStart){
+                for(int i=0; i<adjList[awal].Count; i++){
+                    //push adjacency of the first elemen
+                    simpulE.Push(adjList[awal][i]);
+                }
+                return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
+            } else {
+                Node temp = simpulE.Pop();
+                int count = 0;
+                bool tai = false, ada = false;
+                for(int i=0; i<adjList[awal].Count; i++){
+                    // push adjacency of the first elemen
+                    // if it has not visited before
+                    if(visitedNode[adjList[awal][i].val] != 1){
+                        simpulE.Push(adjList[awal][i]);
+                        count++;
+                    }
+                    tai = true;
+                }
+                if(awal.isTreasure){
+                    tc = removeTreasure(tc, awal);
+                }
+                // gaada lagi yang bisa dikunjungin BACKTRACK
+                Node fix = res[res.Count-1];
+                if (count == 0 && tai == true && (tc.Count != 0)){
+                    int idx = 2;
+                    int size = res.Count;
+                    while(!ada){
+                        Node hasil = res[size-idx];
+                        res.Add(hasil);
+                        visual.Add(1);
+                        for (int j=0; j<adjList[hasil].Count; j++){
+                            int hai = adjList[hasil][j].val;
+                            if (visitedNode[hai] == 0){
+                                ada = true;
+                                fix = adjList[hasil][j];
+                                break;
+                            }
+                        }
+                        idx++;
+                    }
+                }
+                int bt = res.Count;
+                if(ada && tc.Count != 0){
+                    return DFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
+                } else{
+                    if(tc.Count != 0){
+                        return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
+                    } else {
+                        return new Tuple<List<Node>, List<int>> (res, visual);
+                    }
+                }
+            }
+        }
     }
 }
