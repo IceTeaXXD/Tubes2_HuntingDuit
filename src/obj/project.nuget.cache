@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "GvCg1XwCqj1qWldoeAB1YSyLOHnZCos/6NoO4+MCXGBTnch8mWIuRcCdOHH+jKkFPSWEkoNl6PJr20ZEVWzO3w==",
+  "success": true,
+  "projectFilePath": "C:\\File\\Nadil\\STEI ITB\\Semester 4\\Tubes2_HuntingDuit\\src\\Tubes2_HuntingDuit.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.15\\microsoft.windowsdesktop.app.ref.6.0.15.nupkg.sha512",
+    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.15\\microsoft.netcore.app.ref.6.0.15.nupkg.sha512",
+    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.15\\microsoft.aspnetcore.app.ref.6.0.15.nupkg.sha512",
+    "C:\\Users\\ahmad\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.15\\microsoft.netcore.app.host.win-x64.6.0.15.nupkg.sha512"
+  ],
+  "logs": []
+}
