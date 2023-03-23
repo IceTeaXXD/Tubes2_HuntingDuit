@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            TSP = new Label();
+            TSPButton = new Toggle.ToggleButton();
             file = new Label();
             label6 = new Label();
             delayBox = new TextBox();
@@ -62,6 +64,8 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(81, 62, 42);
+            panel1.Controls.Add(TSP);
+            panel1.Controls.Add(TSPButton);
             panel1.Controls.Add(file);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(delayBox);
@@ -76,18 +80,40 @@
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(375, 845);
+            panel1.Size = new Size(328, 634);
             panel1.TabIndex = 0;
+            // 
+            // TSP
+            // 
+            TSP.AutoSize = true;
+            TSP.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            TSP.ForeColor = Color.FromArgb(230, 211, 179);
+            TSP.Location = new Point(141, 241);
+            TSP.Name = "TSP";
+            TSP.Size = new Size(44, 26);
+            TSP.TabIndex = 16;
+            TSP.Text = "TSP";
+            // 
+            // TSPButton
+            // 
+            TSPButton.Location = new Point(102, 241);
+            TSPButton.MinimumSize = new Size(22, 22);
+            TSPButton.Name = "TSPButton";
+            TSPButton.Size = new Size(39, 22);
+            TSPButton.TabIndex = 13;
+            TSPButton.Text = "toggleButton1";
+            TSPButton.UseVisualStyleBackColor = true;
             // 
             // file
             // 
             file.AutoSize = true;
             file.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
             file.ForeColor = Color.FromArgb(230, 211, 179);
-            file.Location = new Point(56, 360);
+            file.Location = new Point(49, 270);
             file.Name = "file";
-            file.Size = new Size(136, 33);
+            file.Size = new Size(112, 26);
             file.TabIndex = 15;
             file.Text = "Filename : ";
             // 
@@ -96,19 +122,18 @@
             label6.AutoSize = true;
             label6.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.FromArgb(230, 211, 179);
-            label6.Location = new Point(216, 516);
+            label6.Location = new Point(189, 387);
             label6.Name = "label6";
-            label6.Size = new Size(57, 40);
+            label6.Size = new Size(46, 31);
             label6.TabIndex = 14;
             label6.Text = "ms";
             // 
             // delayBox
             // 
             delayBox.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
-            delayBox.Location = new Point(105, 517);
-            delayBox.Margin = new Padding(3, 4, 3, 4);
+            delayBox.Location = new Point(92, 388);
             delayBox.Name = "delayBox";
-            delayBox.Size = new Size(87, 38);
+            delayBox.Size = new Size(77, 32);
             delayBox.TabIndex = 12;
             delayBox.TextChanged += delayBox_TextChanged;
             // 
@@ -117,19 +142,18 @@
             label1.AutoSize = true;
             label1.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.FromArgb(230, 211, 179);
-            label1.Location = new Point(105, 472);
+            label1.Location = new Point(92, 354);
             label1.Name = "label1";
-            label1.Size = new Size(189, 40);
+            label1.Size = new Size(152, 31);
             label1.TabIndex = 13;
             label1.Text = "Output Delay";
             // 
             // outputDelay
             // 
-            outputDelay.Location = new Point(90, 568);
-            outputDelay.Margin = new Padding(3, 4, 3, 4);
+            outputDelay.Location = new Point(79, 426);
             outputDelay.Maximum = 1000;
             outputDelay.Name = "outputDelay";
-            outputDelay.Size = new Size(198, 56);
+            outputDelay.Size = new Size(173, 45);
             outputDelay.TabIndex = 12;
             outputDelay.Value = 10;
             outputDelay.Scroll += outputDelay_Scroll;
@@ -138,9 +162,10 @@
             // 
             FileChoose.BackColor = Color.FromArgb(190, 158, 130);
             FileChoose.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            FileChoose.Location = new Point(53, 411);
+            FileChoose.Location = new Point(46, 308);
+            FileChoose.Margin = new Padding(3, 2, 3, 2);
             FileChoose.Name = "FileChoose";
-            FileChoose.Size = new Size(282, 43);
+            FileChoose.Size = new Size(247, 32);
             FileChoose.TabIndex = 12;
             FileChoose.Text = "Choose File...";
             FileChoose.UseVisualStyleBackColor = false;
@@ -151,10 +176,9 @@
             SearchButton.BackColor = Color.FromArgb(190, 158, 130);
             SearchButton.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
             SearchButton.ForeColor = Color.FromArgb(81, 62, 42);
-            SearchButton.Location = new Point(105, 631);
-            SearchButton.Margin = new Padding(3, 4, 3, 4);
+            SearchButton.Location = new Point(92, 473);
             SearchButton.Name = "SearchButton";
-            SearchButton.Size = new Size(174, 47);
+            SearchButton.Size = new Size(152, 35);
             SearchButton.TabIndex = 7;
             SearchButton.Text = "Search";
             SearchButton.UseVisualStyleBackColor = false;
@@ -165,10 +189,9 @@
             DFSButton.AutoSize = true;
             DFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             DFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            DFSButton.Location = new Point(151, 296);
-            DFSButton.Margin = new Padding(3, 4, 3, 4);
+            DFSButton.Location = new Point(126, 219);
             DFSButton.Name = "DFSButton";
-            DFSButton.Size = new Size(72, 35);
+            DFSButton.Size = new Size(61, 29);
             DFSButton.TabIndex = 10;
             DFSButton.TabStop = true;
             DFSButton.Text = "DFS";
@@ -179,10 +202,9 @@
             BFSButton.AutoSize = true;
             BFSButton.Font = new Font("Poppins Medium", 11.249999F, FontStyle.Bold, GraphicsUnit.Point);
             BFSButton.ForeColor = Color.FromArgb(230, 211, 179);
-            BFSButton.Location = new Point(151, 264);
-            BFSButton.Margin = new Padding(3, 4, 3, 4);
+            BFSButton.Location = new Point(126, 198);
             BFSButton.Name = "BFSButton";
-            BFSButton.Size = new Size(71, 35);
+            BFSButton.Size = new Size(59, 29);
             BFSButton.TabIndex = 9;
             BFSButton.TabStop = true;
             BFSButton.Text = "BFS";
@@ -193,9 +215,9 @@
             Algorithm.AutoSize = true;
             Algorithm.Font = new Font("Poppins Medium", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             Algorithm.ForeColor = Color.FromArgb(230, 211, 179);
-            Algorithm.Location = new Point(117, 219);
+            Algorithm.Location = new Point(102, 164);
             Algorithm.Name = "Algorithm";
-            Algorithm.Size = new Size(145, 40);
+            Algorithm.Size = new Size(117, 31);
             Algorithm.TabIndex = 8;
             Algorithm.Text = "Algorithm";
             // 
@@ -204,9 +226,9 @@
             Input_Label.AutoSize = true;
             Input_Label.Font = new Font("Poppins Medium", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             Input_Label.ForeColor = Color.FromArgb(190, 158, 130);
-            Input_Label.Location = new Point(3, 72);
+            Input_Label.Location = new Point(3, 54);
             Input_Label.Name = "Input_Label";
-            Input_Label.Size = new Size(97, 46);
+            Input_Label.Size = new Size(79, 37);
             Input_Label.TabIndex = 5;
             Input_Label.Text = "Input";
             // 
@@ -214,8 +236,9 @@
             // 
             panel3.BackColor = Color.FromArgb(59, 44, 26);
             panel3.Location = new Point(0, 0);
+            panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(416, 69);
+            panel3.Size = new Size(364, 52);
             panel3.TabIndex = 3;
             // 
             // panel2
@@ -231,9 +254,10 @@
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(flowLayoutPanel1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(375, 0);
+            panel2.Location = new Point(328, 0);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1070, 845);
+            panel2.Size = new Size(936, 634);
             panel2.TabIndex = 1;
             // 
             // Runtime
@@ -241,9 +265,9 @@
             Runtime.AutoSize = true;
             Runtime.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             Runtime.ForeColor = Color.FromArgb(81, 62, 42);
-            Runtime.Location = new Point(303, 632);
+            Runtime.Location = new Point(265, 474);
             Runtime.Name = "Runtime";
-            Runtime.Size = new Size(168, 44);
+            Runtime.Size = new Size(133, 34);
             Runtime.TabIndex = 12;
             Runtime.Text = "Runtime : ";
             // 
@@ -252,9 +276,9 @@
             label5.AutoSize = true;
             label5.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.FromArgb(81, 62, 42);
-            label5.Location = new Point(32, 841);
+            label5.Location = new Point(28, 631);
             label5.Name = "label5";
-            label5.Size = new Size(265, 44);
+            label5.Size = new Size(211, 34);
             label5.TabIndex = 11;
             label5.Text = "Execution Time : ";
             // 
@@ -263,9 +287,9 @@
             Nodes.AutoSize = true;
             Nodes.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             Nodes.ForeColor = Color.FromArgb(81, 62, 42);
-            Nodes.Location = new Point(32, 796);
+            Nodes.Location = new Point(28, 597);
             Nodes.Name = "Nodes";
-            Nodes.Size = new Size(127, 44);
+            Nodes.Size = new Size(100, 34);
             Nodes.TabIndex = 10;
             Nodes.Text = "Nodes :";
             // 
@@ -274,9 +298,9 @@
             Steps.AutoSize = true;
             Steps.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             Steps.ForeColor = Color.FromArgb(81, 62, 42);
-            Steps.Location = new Point(32, 751);
+            Steps.Location = new Point(28, 563);
             Steps.Name = "Steps";
-            Steps.Size = new Size(135, 44);
+            Steps.Size = new Size(107, 34);
             Steps.TabIndex = 9;
             Steps.Text = "Steps  : ";
             // 
@@ -285,21 +309,20 @@
             Route.AutoSize = true;
             Route.Font = new Font("Poppins Medium", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             Route.ForeColor = Color.FromArgb(81, 62, 42);
-            Route.Location = new Point(32, 673);
+            Route.Location = new Point(28, 505);
             Route.Name = "Route";
-            Route.Size = new Size(139, 44);
+            Route.Size = new Size(109, 34);
             Route.TabIndex = 8;
             Route.Text = "Route  : ";
             // 
             // MazeGrid
             // 
             MazeGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            MazeGrid.Location = new Point(303, 161);
-            MazeGrid.Margin = new Padding(3, 4, 3, 4);
+            MazeGrid.Location = new Point(265, 121);
             MazeGrid.Name = "MazeGrid";
             MazeGrid.RowHeadersWidth = 51;
             MazeGrid.RowTemplate.Height = 25;
-            MazeGrid.Size = new Size(400, 467);
+            MazeGrid.Size = new Size(350, 350);
             MazeGrid.TabIndex = 7;
             // 
             // Output_Label
@@ -307,9 +330,9 @@
             Output_Label.AutoSize = true;
             Output_Label.Font = new Font("Poppins Medium", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             Output_Label.ForeColor = Color.FromArgb(81, 62, 42);
-            Output_Label.Location = new Point(0, 72);
+            Output_Label.Location = new Point(0, 54);
             Output_Label.Name = "Output_Label";
-            Output_Label.Size = new Size(123, 46);
+            Output_Label.Size = new Size(99, 37);
             Output_Label.TabIndex = 6;
             Output_Label.Text = "Output";
             // 
@@ -318,8 +341,9 @@
             panel4.BackColor = Color.FromArgb(59, 44, 26);
             panel4.Controls.Add(Title);
             panel4.Location = new Point(0, 0);
+            panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1070, 69);
+            panel4.Size = new Size(936, 52);
             panel4.TabIndex = 4;
             // 
             // Title
@@ -329,27 +353,29 @@
             Title.BackColor = Color.Transparent;
             Title.Font = new Font("Poppins Medium", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point);
             Title.ForeColor = Color.FromArgb(230, 211, 179);
-            Title.Location = new Point(287, 0);
+            Title.Location = new Point(251, 0);
             Title.Name = "Title";
-            Title.Size = new Size(319, 72);
+            Title.Size = new Size(258, 57);
             Title.TabIndex = 2;
             Title.Text = "Hunting Duit";
             Title.TextAlign = ContentAlignment.TopCenter;
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Location = new Point(237, 61);
+            flowLayoutPanel1.Location = new Point(207, 46);
+            flowLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(8, 8);
+            flowLayoutPanel1.Size = new Size(7, 6);
             flowLayoutPanel1.TabIndex = 3;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1445, 845);
+            ClientSize = new Size(1264, 634);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "Form1";
             Text = "Hunting Duit";
@@ -391,5 +417,7 @@
         private TrackBar outputDelay;
         private Label Runtime;
         private Label file;
+        private Toggle.ToggleButton TSPButton;
+        private Label TSP;
     }
 }

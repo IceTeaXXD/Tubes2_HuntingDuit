@@ -71,7 +71,7 @@ namespace Tubes2_HuntingDuit
             }
         }
 
-        public async void matToGird(int[] path, int[] way, int[] treasures, int row, int col)
+        public async void matToGird(int[] path, int[] way, List<int> treasures, int row, int col)
         {
             MazeGrid.RowHeadersVisible = false;
             MazeGrid.ColumnHeadersVisible = false;
@@ -131,7 +131,7 @@ namespace Tubes2_HuntingDuit
                 }
             }
 
-            for (int i = 0; i < treasures.Length; i++)
+            for (int i = 0; i < treasures.Count; i++)
             {
                 int x = treasures[i] / col;
                 int y = treasures[i] % col;
@@ -232,18 +232,35 @@ namespace Tubes2_HuntingDuit
             Stopwatch stopwatch = new Stopwatch();
             if (DFSButton.Checked)
             {
+                Node start = map.nodes.Find(x => x.isStart);
                 List<int> path = new List<int>();
                 for (int i = 0; i < map.nodes.Count; i++)
                 {
                     path.Add(0);
                 }
                 List<Node> res = new List<Node>();
+                List<int> visual = new List<int>();
                 Stack<Node> simpulE = new Stack<Node>();
-                Node start = map.nodes.Find(x => x.isStart);
-                stopwatch.Start();
-                List<Node> hasil = map.dfsres(0, start, path, res, simpulE);
-                stopwatch.Stop();
+                List<int> tc = map.treasures();
+                Tuple<List<Node>, List<int>> test = map.DFS(0, start, tc, path, visual, res, simpulE);
+                List<Node> hasil = test.Item1;
+                List<int> gui = test.Item2;
 
+                if(TSPButton.Checked)
+                {
+                    List<int> path3 = new List<int>();
+                    for (int i = 0; i < map.nodes.Count; i++)
+                    {
+                        path3.Add(0);
+                    }
+                    List<Node> res3 = new List<Node>();
+                    Stack<Node> simpulE3 = new Stack<Node>();
+                    int startDFS = hasil.Count-1;
+                    Tuple<List<Node>, List<int>> test3 = map.TSPDFS(0, res[res.Count - 1], tc, path3, gui, hasil, simpulE3);
+                    hasil.RemoveAt(startDFS);
+                    List<Node> hasil3 = test3.Item1;
+                    List<int> gui3 = test3.Item2;
+                }
                 pathresult = new int[hasil.Count];
                 for (int i = 0; i < hasil.Count; i++)
                 {
@@ -367,7 +384,7 @@ namespace Tubes2_HuntingDuit
                 }
 
                 int[] way = map.way();
-                int[] treasures = map.treasures();
+                List<int> treasures = map.treasures();
                 for (int i = 0; i < way.Length; i++)
                 {
                     int x = way[i] / col;
@@ -386,7 +403,7 @@ namespace Tubes2_HuntingDuit
                     }
                 }
 
-                for (int i = 0; i < treasures.Length; i++)
+                for (int i = 0; i < treasures.Count; i++)
                 {
                     int x = treasures[i] / col;
                     int y = treasures[i] % col;
