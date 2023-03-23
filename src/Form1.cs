@@ -246,7 +246,7 @@ namespace Tubes2_HuntingDuit
                 List<Node> hasil = test.Item1;
                 List<int> gui = test.Item2;
 
-                if(TSPButton.Checked)
+                if (TSPButton.Checked)
                 {
                     List<int> path3 = new List<int>();
                     for (int i = 0; i < map.nodes.Count; i++)
@@ -255,7 +255,7 @@ namespace Tubes2_HuntingDuit
                     }
                     List<Node> res3 = new List<Node>();
                     Stack<Node> simpulE3 = new Stack<Node>();
-                    int startDFS = hasil.Count-1;
+                    int startDFS = hasil.Count - 1;
                     Tuple<List<Node>, List<int>> test3 = map.TSPDFS(0, res[res.Count - 1], tc, path3, gui, hasil, simpulE3);
                     hasil.RemoveAt(startDFS);
                     List<Node> hasil3 = test3.Item1;

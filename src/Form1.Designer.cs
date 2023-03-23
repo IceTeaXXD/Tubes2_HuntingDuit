@@ -90,7 +90,7 @@
             TSP.AutoSize = true;
             TSP.Font = new Font("Poppins Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
             TSP.ForeColor = Color.FromArgb(230, 211, 179);
-            TSP.Location = new Point(141, 241);
+            TSP.Location = new Point(141, 244);
             TSP.Name = "TSP";
             TSP.Size = new Size(44, 26);
             TSP.TabIndex = 16;
@@ -98,7 +98,7 @@
             // 
             // TSPButton
             // 
-            TSPButton.Location = new Point(102, 241);
+            TSPButton.Location = new Point(102, 245);
             TSPButton.MinimumSize = new Size(22, 22);
             TSPButton.Name = "TSPButton";
             TSPButton.Size = new Size(39, 22);
