@@ -287,7 +287,7 @@ class Graph {
         }
     }
 
-        public List<Node> BFSHelper(Node start, int goal)
+    public List<Node> BFSHelper(Node start, int goal)
     {
         Queue<List<Node>> path = new Queue<List<Node>>();
         path.Enqueue(new List<Node> { start });
@@ -317,22 +317,36 @@ class Graph {
                 }
             }
         }
-
-
         List<Node> result = new List<Node>();
         return result;
     }
+
     public List<Node> BFS()
     {
         Node start = nodes.Find(x => x.isStart);
         List<int> treasure_list = treasures();
         List<Node> result = new List<Node>();
         List<Node> pathTemp = new List<Node>();
+        List<int> visitedTreasure = new List<int>();
         result.Add(start);
         foreach(int treasure in treasure_list){
-            result.AddRange(BFSHelper(start, treasure));
-            start = result[result.Count - 1];
+            if (!visitedTreasure.Contains(treasure))
+            {
+                result.AddRange(BFSHelper(start, treasure));
+                start = result[result.Count - 1];
+                foreach(Node node in result){
+                    if(node.isTreasure){
+                        visitedTreasure.Add(node.val);
+                    }
+                }
+            }
         }
+        return result;
+    }
+
+    public List<Node> TSPBFS(List<Node> result)
+    {
+        result.AddRange(BFSHelper(result[result.Count - 1], nodes.Find(x => x.isStart).val));
         return result;
     }
 }

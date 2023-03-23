@@ -270,6 +270,10 @@ namespace Tubes2_HuntingDuit
             else if (BFSButton.Checked)
             {
                 List<Node> res = map.BFS();
+                if (TSPButton.Checked)
+                {
+                    res = map.TSPBFS(res);
+                }
                 pathresult = new int[res.Count];
                 for (int i = 0; i < res.Count; i++)
                 {
