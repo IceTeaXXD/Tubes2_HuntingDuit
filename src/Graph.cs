@@ -334,8 +334,10 @@ class Graph {
             {
                 result.AddRange(BFSHelper(start, treasure));
                 start = result[result.Count - 1];
-                foreach(Node node in result){
-                    if(node.isTreasure){
+                foreach (Node node in result)
+                {
+                    if (node.isTreasure)
+                    {
                         visitedTreasure.Add(node.val);
                     }
                 }
