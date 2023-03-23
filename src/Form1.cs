@@ -269,21 +269,11 @@ namespace Tubes2_HuntingDuit
             }
             else if (BFSButton.Checked)
             {
-                List<int> path2 = new List<int>();
-                for (int i = 0; i < map.nodes.Count; i++)
+                List<Node> res = map.BFS();
+                pathresult = new int[res.Count];
+                for (int i = 0; i < res.Count; i++)
                 {
-                    path2.Add(0);
-                }
-
-                List<Node> res2 = new List<Node>();
-                Queue<Node> simpulE2 = new Queue<Node>();
-                stopwatch.Start();
-                List<Node> hasil2 = map.bfsres(0, map.nodes[0], path2, res2, simpulE2);
-                stopwatch.Stop();
-                pathresult = new int[hasil2.Count];
-                for (int i = 0; i < hasil2.Count; i++)
-                {
-                    pathresult[i] = hasil2[i].val;
+                    pathresult[i] = res[i].val;
                 }
             }
             for (int i = 1; i < pathresult.Length; i++)

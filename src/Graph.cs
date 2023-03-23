@@ -121,43 +121,6 @@ class Graph {
 
         return treasure;
     }
-
-    public void BFS(){
-        Queue<KeyValuePair<Node,Node>> queue = new Queue<KeyValuePair<Node,Node>>();        
-        int treasures = 0;
-
-        KeyValuePair<Node,Node> startNode = new KeyValuePair<Node,Node>(nodes.Find(node => node.isStart),null);
-        queue.Enqueue(startNode);
-        
-        
-        while (queue.Count > 0) {
-            KeyValuePair<Node,Node>queueElem = queue.Dequeue();
-            Node node = queueElem.Key;
-            if (node.visited) {
-                continue;
-            }
-            node.visited = true;
-            // Console.WriteLine(node.val);
-            if (node.isTreasure) {
-                treasures++;
-                
-                while(queue.Count != 0) {
-                    Node prevNode = queue.Dequeue().Key;
-                }
-            }
-            foreach (Node neighbor in adjList[node]) {
-                KeyValuePair<Node,Node> tempNode = new KeyValuePair<Node,Node>(neighbor,node);
-                queue.Enqueue(tempNode);
-            }
-            path.Add(queueElem);
-            if (treasureCount == treasures) {
-                Console.WriteLine("Found all treasure!");
-                return;
-            }
-        }
-        
-        
-    }
     public Tuple<List<Node>, List<int>> TSPDFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
         if(awal.isStart){
             res.Add(awal);
@@ -322,5 +285,54 @@ class Graph {
                 return res;
             }
         }
+    }
+
+        public List<Node> BFSHelper(Node start, int goal)
+    {
+        Queue<List<Node>> path = new Queue<List<Node>>();
+        path.Enqueue(new List<Node> { start });
+
+        // while loop until the first element in the queue contains the goal
+        while (path.Count > 0)
+        {
+            // dequeue the first element in the queue
+            List<Node> pathTemp = path.Dequeue();
+            Node lastNode = pathTemp[pathTemp.Count - 1];
+
+            // if the last node in the path is the goal, return the path
+            if (lastNode.val == goal)
+            {
+                pathTemp.RemoveAt(0);
+                return pathTemp;
+            }
+
+            // if the last node in the path is not the goal, enqueue all the neighbors of the last node
+            foreach (Node neighbor in adjList[lastNode])
+            {
+                if (!pathTemp.Contains(neighbor))
+                {
+                    List<Node> newPath = new List<Node>(pathTemp);
+                    newPath.Add(neighbor);
+                    path.Enqueue(newPath);
+                }
+            }
+        }
+
+
+        List<Node> result = new List<Node>();
+        return result;
+    }
+    public List<Node> BFS()
+    {
+        Node start = nodes.Find(x => x.isStart);
+        List<int> treasure_list = treasures();
+        List<Node> result = new List<Node>();
+        List<Node> pathTemp = new List<Node>();
+        result.Add(start);
+        foreach(int treasure in treasure_list){
+            result.AddRange(BFSHelper(start, treasure));
+            start = result[result.Count - 1];
+        }
+        return result;
     }
 }
