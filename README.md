@@ -29,8 +29,6 @@ Aplikasi desktop untuk menyelesaikan persoalan maze treasure hunt. Program mengg
 - Visual Studio
 
 ## Usage
-- If you're using Windows, Run **python3 src/main.py** on your terminal.
-- If you're using macOS or Linux, Run **python3 src/main.py** on your terminal.
 - This program can only run in Windows, Go to your terminal, type **cd src**, and type **dotnet run**. If you have Visual Studio you can just click the build button
 
 ## Author
