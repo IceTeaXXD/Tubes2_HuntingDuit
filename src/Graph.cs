@@ -1,33 +1,37 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using NodeSpace;
-
 namespace GraphSpace;
 class Graph {
+    /* ATTRIBUTES */
     public List<Node> nodes;
     public Dictionary<Node, List<Node>> adjList;
-    public List<KeyValuePair<Node,Node>> path = new List<KeyValuePair<Node,Node>>();
-
     public int treasureCount = 0;
     public int nodedfschecked = 0;
     
+    /* CONSTRUCTOR */
     public Graph() {
         nodes = new List<Node>();
         adjList = new Dictionary<Node, List<Node>>();
     }
 
+    /* METHODS */
+
+    // Read graph from file
+    // I.S. A filename with the correct format exists
+    // F.S. Graph is created
     public void makeGraph(string filename){
+        // Read file and variables initialization
         string[] lines = File.ReadAllLines(filename);
         int numRows = lines.Length;
         int numCols = lines[0].Split(' ').Length;
 
         // Add nodes to graph
         for (int i = 0; i < numRows; i++) {
-            string[] row = lines[i].Split(' ');
+            string[] row = lines[i].Split(' '); // split each row into an array of strings
+            
+            // Loop to read each node
             for (int j = 0; j < numCols; j++) {
                 string val = row[j];
-                if (val != "X" && val != "K" && val != "T" && val != "R") {
+                if (val != "X" && val != "K" && val != "T" && val != "R") { // check whether the file contains invalid input
                     throw new Exception("Invalid input file");
                 }
                 bool isStart = (val == "K");
@@ -40,6 +44,8 @@ class Graph {
         // Add edges to graph
         for (int i = 0; i < numRows; i++) {
             string[] row = lines[i].Split(' ');
+
+            // Loop to read each node
             for (int j = 0; j < numCols; j++) {
                 string val = row[j];
                 int nodeIndex = i * numCols + j;
@@ -67,21 +73,31 @@ class Graph {
         }
     }
 
+    // Add node to graph
+    // I.S. Graph is initialized
+    // F.S. Node is added to graph
     public void AddNode(int val, bool isStart=false, bool isTreasure=false) {
         Node node = new Node(val, isStart, isTreasure);
         nodes.Add(node);
         adjList[node] = new List<Node>();
     }
     
+    // Add edge to graph
+    // I.S. Graph is initialized
+    // F.S. Edge is added to graph as a dictionary, where the key is the node and the value is the list of neighbors
     public void AddEdge(Node node1, Node node2) {
         // check if the nodes are already a neighbor
         if (adjList[node1].Contains(node2)) {
             return;
         }
+        // add the nodes to each other's neighbor list
         adjList[node1].Add(node2);
         adjList[node2].Add(node1);
     }
 
+    // Print graph
+    // I.S. Graph is initialized
+    // F.S. Graph is printed, including the nodes and their neighbors
     public void PrintGraph(){
         foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
             Console.Write(kvp.Key.val + ": ");
@@ -91,26 +107,24 @@ class Graph {
             Console.WriteLine();
         }
     }
-    public int[] way(){
-        int numOfPath = 0; // numOfPath is the nodes that have list of node in the adjList dictionary
+
+    // Get path
+    // I.S. Graph is initialized
+    // F.S. The list of path is returned
+    public List<int> way(){
+
+        List<int> way = new List<int>();
         foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
             if (kvp.Value.Count != 0){
-                numOfPath++;
+                way.Add(kvp.Key.val);
             }
         }
-
-        int[] way = new int[numOfPath];
-        int i = 0;
-        foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
-            if (kvp.Value.Count != 0){
-                way[i] = kvp.Key.val;
-                i++;
-            }
-        }
-
         return way;
     }
 
+    // Get treasure
+    // I.S. Graph is initialized
+    // F.S. The list of treasure is returned
     public List<int> treasures(){
         List<int> treasure = new List<int>();
         foreach (KeyValuePair<Node, List<Node>> kvp in adjList) {
@@ -118,70 +132,32 @@ class Graph {
                 treasure.Add(kvp.Key.val);
             }
         }
-
         return treasure;
     }
-    public Tuple<List<Node>, List<int>> TSPDFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
-        if(awal.isStart){
-            res.Add(awal);
-            return new Tuple<List<Node>, List<int>> (res, visual);
-        } else{
-            int count = 0;
-            bool tai = false, ada = false;
-            for(int i=adjList[awal].Count-1; i>=0; i--){
-                // push adjacency of the first elemen
-                // if it has not visited before
-                if(visitedNode[adjList[awal][i].val] != 1){
-                    simpulE.Push(adjList[awal][i]);
-                    count++;
-                } else{
-                }
-                tai = true;
-            }
-            res.Add(awal);
-            visual.Add(0);
-            visitedNode[awal.val] = 1;
-            // gaada lagi yang bisa dikunjungin BACKTRACK
-            Node fix = res[res.Count-1];
-            if (count == 0 && tai == true){
-                int idx = 2;
-                int size = res.Count;
-                while(!ada){
-                    Node hasil = res[size-idx];
-                    res.Add(hasil);
-                    visual.Add(1);
-                    for (int j=0; j<adjList[hasil].Count; j++){
-                        int hai = adjList[hasil][j].val;
-                        if (visitedNode[hai] == 0){
-                            ada = true;
-                            fix = adjList[hasil][j];
-                            break;
-                        }
-                    }
-                    idx++;
-                }
-            }
-            if (ada){
-                return TSPDFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
-            } else{
-                return TSPDFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
-            }
-        }
-    }
+
+    // Remove treasure
+    // I.S. A list and a node to remove from the list
+    // F.S. The new list of treasure is returned
     public List<int> removeTreasure (List<int> temp, Node n){
         temp.RemoveAll(r => r == n.val);
         return temp;
     }
 
+    // DFS
+    // I.S. Graph is initialized
+    // F.S. The path is returned using DFS method
     public Tuple<List<Node>, List<int>> DFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
         if(tc.Count == 0){
-            //basis dan kalau stack blom kosong
+            // Base if the stack is empty
             return new Tuple<List<Node>, List<int>> (res, visual);
-        } else{
+        }else{
+            // add node to result and flag it to visited
             res.Add(awal);
             visual.Add(0);
             visitedNode[awal.val] = 1;
             nodedfschecked++;
+
+            // add start to list results
             if(awal.isStart){
                 for(int i=0; i<adjList[awal].Count; i++){
                     //push adjacency of the first elemen
@@ -189,9 +165,9 @@ class Graph {
                 }
                 return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
             } else {
-                Node temp = simpulE.Pop();
+                Node top = simpulE.Pop();
                 int count = 0;
-                bool tai = false, ada = false;
+                bool init = false, notvisited = false;
                 for(int i=0; i<adjList[awal].Count; i++){
                     // push adjacency of the first elemen
                     // if it has not visited before
@@ -199,34 +175,39 @@ class Graph {
                         simpulE.Push(adjList[awal][i]);
                         count++;
                     }
-                    tai = true;
+                    init = true;
                 }
+                // remove treasure from list int
                 if(awal.isTreasure){
                     tc = removeTreasure(tc, awal);
                 }
-                // gaada lagi yang bisa dikunjungin BACKTRACK
-                Node fix = res[res.Count-1];
-                if (count == 0 && tai == true && (tc.Count != 0)){
+
+                // backtrack if there is no other node that haven't been visited
+                Node temp = res[res.Count-1];
+                if (count == 0 && init == true && (tc.Count != 0)){
                     int idx = 2;
                     int size = res.Count;
-                    while(!ada){
+                    while(!notvisited){
                         Node hasil = res[size-idx];
                         res.Add(hasil);
                         visual.Add(1);
+                        // check if the adjacent nodes have been visited before
                         for (int j=0; j<adjList[hasil].Count; j++){
                             int hai = adjList[hasil][j].val;
                             if (visitedNode[hai] == 0){
-                                ada = true;
-                                fix = adjList[hasil][j];
+                                notvisited = true;
+                                temp = adjList[hasil][j];
                                 break;
                             }
                         }
                         idx++;
                     }
                 }
-                int bt = res.Count;
-                if(ada && tc.Count != 0){
-                    return DFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
+
+                // recursive
+                //if there is another treasure and there is node that has not visited
+                if(notvisited && tc.Count != 0){
+                    return DFS(ctr, temp, tc, visitedNode, visual, res, simpulE);
                 } else{
                     if(tc.Count != 0){
                         return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
@@ -237,56 +218,71 @@ class Graph {
             }
         }
     }
-    public List<Node> bfsres(int ctr, Node awal, List<int> visitedNode, List<Node> res, Queue<Node> simpulE){
-        res.Add(awal);
-        visitedNode[awal.val] = 1;
-        nodedfschecked++;
+
+    // TSP DFS
+    // I.S. Graph is initialized
+    // F.S. The path is returned using DFS method and return to the start node
+    public Tuple<List<Node>, List<int>> TSPDFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
         if(awal.isStart){
-            for(int i=0; i<adjList[awal].Count; i++){
-                //push adjacency of the first elemen
-                simpulE.Enqueue(adjList[awal][i]);
-            }
-            return bfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
-        } else {
-            Node temp = simpulE.Dequeue();
+            // add start to list results
+            // base of recursive
+            res.Add(awal);
+            return new Tuple<List<Node>, List<int>> (res, visual);
+        } else{
+            // add node to result and flag it to visited
+            res.Add(awal);
+            visual.Add(0);
+            visitedNode[awal.val] = 1;
+            nodedfschecked++;
+
             int count = 0;
-            bool ada = false;
-            for(int i=0; i<adjList[awal].Count; i++){
+            bool init = false, notvisited = false;
+            Node top = simpulE.Pop();
+
+            for(int i=adjList[awal].Count-1; i>=0; i--){
                 // push adjacency of the first elemen
                 // if it has not visited before
                 if(visitedNode[adjList[awal][i].val] != 1){
-                    simpulE.Enqueue(adjList[awal][i]);
+                    simpulE.Push(adjList[awal][i]);
                     count++;
-                }
+                } 
+                init = true;
             }
-            if(awal.isTreasure){
-                ctr++;
-            }
-            
-            if(res.Count >= 3 && ctr != treasureCount){
+
+            // backtrack if there is no other node that haven't been visited
+            Node temp = res[res.Count-1];
+            if (count == 0 && init == true){
                 int idx = 2;
                 int size = res.Count;
-                while(!ada){
+
+                while(!notvisited){
                     Node hasil = res[size-idx];
                     res.Add(hasil);
-                    for(int j=0; j<adjList[hasil].Count; j++){
-                        if(adjList[hasil][j].val == simpulE.Peek().val){
-                            ada = true;
+                    visual.Add(1);
+                    // check if the adjacent nodes have been visited before
+                    for (int j=0; j<adjList[hasil].Count; j++){
+                        int hai = adjList[hasil][j].val;
+                        if (visitedNode[hai] == 0){
+                            notvisited = true;
+                            temp = adjList[hasil][j];
                             break;
                         }
                     }
                     idx++;
                 }
             }
-
-            if(ctr != treasureCount){
-                return bfsres(ctr, simpulE.Peek(), visitedNode, res, simpulE);
-            } else {
-                return res;
+            // recursive
+            if (notvisited){
+                return TSPDFS(ctr, temp, tc, visitedNode, visual, res, simpulE);
+            } else{
+                return TSPDFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
             }
         }
     }
 
+    // BFS
+    // I.S. Graph is initialized, start is the start node, goal is the goal node
+    // F.S. The path is returned using BFS method from start to goal
     public List<Node> BFSHelper(Node start, int goal)
     {
         Queue<List<Node>> path = new Queue<List<Node>>();
@@ -321,24 +317,31 @@ class Graph {
         return result;
     }
 
+    // BFS
+    // I.S. Graph is initialized
+    // F.S. The path is returned using BFS method
     public List<Node> BFS()
     {
+        // Variable initialization
         Node start = nodes.Find(x => x.isStart);
         List<int> treasure_list = treasures();
         List<Node> result = new List<Node>();
         List<Node> pathTemp = new List<Node>();
         List<int> visitedTreasure = new List<int>();
-        result.Add(start);
+
+        result.Add(start); // add start node to the result
+
+        // loop through all the treasures
         foreach(int treasure in treasure_list){
-            if (!visitedTreasure.Contains(treasure))
+            if (!visitedTreasure.Contains(treasure)) // only find the path to the treasure if it has not been visited
             {
-                result.AddRange(BFSHelper(start, treasure));
-                start = result[result.Count - 1];
+                result.AddRange(BFSHelper(start, treasure)); // add the path from start to treasure to the result
+                start = result[result.Count - 1]; // set the start node to the last node in the result (the treasure node found)
                 foreach (Node node in result)
                 {
                     if (node.isTreasure)
                     {
-                        visitedTreasure.Add(node.val);
+                        visitedTreasure.Add(node.val); // add the treasure node to the visitedTreasure list
                     }
                 }
             }
@@ -346,6 +349,9 @@ class Graph {
         return result;
     }
 
+    // TSP BFS
+    // I.S. Graph is initialized
+    // F.S. A path to return to the start node
     public List<Node> TSPBFS(List<Node> result)
     {
         result.AddRange(BFSHelper(result[result.Count - 1], nodes.Find(x => x.isStart).val));
