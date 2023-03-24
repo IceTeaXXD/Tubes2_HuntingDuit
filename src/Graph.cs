@@ -151,10 +151,13 @@ class Graph {
             // Base if the stack is empty
             return new Tuple<List<Node>, List<int>> (res, visual);
         }else{
+            // add node to result and flag it to visited
             res.Add(awal);
             visual.Add(0);
             visitedNode[awal.val] = 1;
             nodedfschecked++;
+
+            // add start to list results
             if(awal.isStart){
                 for(int i=0; i<adjList[awal].Count; i++){
                     //push adjacency of the first elemen
@@ -162,9 +165,9 @@ class Graph {
                 }
                 return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
             } else {
-                Node temp = simpulE.Pop();
+                Node top = simpulE.Pop();
                 int count = 0;
-                bool tai = false, ada = false;
+                bool init = false, notvisited = false;
                 for(int i=0; i<adjList[awal].Count; i++){
                     // push adjacency of the first elemen
                     // if it has not visited before
@@ -172,34 +175,39 @@ class Graph {
                         simpulE.Push(adjList[awal][i]);
                         count++;
                     }
-                    tai = true;
+                    init = true;
                 }
+                // remove treasure from list int
                 if(awal.isTreasure){
                     tc = removeTreasure(tc, awal);
                 }
-                // gaada lagi yang bisa dikunjungin BACKTRACK
-                Node fix = res[res.Count-1];
-                if (count == 0 && tai == true && (tc.Count != 0)){
+
+                // backtrack if there is no other node that haven't been visited
+                Node temp = res[res.Count-1];
+                if (count == 0 && init == true && (tc.Count != 0)){
                     int idx = 2;
                     int size = res.Count;
-                    while(!ada){
+                    while(!notvisited){
                         Node hasil = res[size-idx];
                         res.Add(hasil);
                         visual.Add(1);
+                        // check if the adjacent nodes have been visited before
                         for (int j=0; j<adjList[hasil].Count; j++){
                             int hai = adjList[hasil][j].val;
                             if (visitedNode[hai] == 0){
-                                ada = true;
-                                fix = adjList[hasil][j];
+                                notvisited = true;
+                                temp = adjList[hasil][j];
                                 break;
                             }
                         }
                         idx++;
                     }
                 }
-                int bt = res.Count;
-                if(ada && tc.Count != 0){
-                    return DFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
+
+                // recursive
+                //if there is another treasure and there is node that has not visited
+                if(notvisited && tc.Count != 0){
+                    return DFS(ctr, temp, tc, visitedNode, visual, res, simpulE);
                 } else{
                     if(tc.Count != 0){
                         return DFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
@@ -216,46 +224,56 @@ class Graph {
     // F.S. The path is returned using DFS method and return to the start node
     public Tuple<List<Node>, List<int>> TSPDFS(int ctr, Node awal, List<int> tc, List<int> visitedNode, List<int> visual, List<Node> res, Stack<Node> simpulE){
         if(awal.isStart){
+            // add start to list results
+            // base of recursive
             res.Add(awal);
             return new Tuple<List<Node>, List<int>> (res, visual);
         } else{
+            // add node to result and flag it to visited
+            res.Add(awal);
+            visual.Add(0);
+            visitedNode[awal.val] = 1;
+            nodedfschecked++;
+
             int count = 0;
-            bool tai = false, ada = false;
+            bool init = false, notvisited = false;
+            Node top = simpulE.Pop();
+
             for(int i=adjList[awal].Count-1; i>=0; i--){
                 // push adjacency of the first elemen
                 // if it has not visited before
                 if(visitedNode[adjList[awal][i].val] != 1){
                     simpulE.Push(adjList[awal][i]);
                     count++;
-                } else{
-                }
-                tai = true;
+                } 
+                init = true;
             }
-            res.Add(awal);
-            visual.Add(0);
-            visitedNode[awal.val] = 1;
-            // gaada lagi yang bisa dikunjungin BACKTRACK
-            Node fix = res[res.Count-1];
-            if (count == 0 && tai == true){
+
+            // backtrack if there is no other node that haven't been visited
+            Node temp = res[res.Count-1];
+            if (count == 0 && init == true){
                 int idx = 2;
                 int size = res.Count;
-                while(!ada){
+
+                while(!notvisited){
                     Node hasil = res[size-idx];
                     res.Add(hasil);
                     visual.Add(1);
+                    // check if the adjacent nodes have been visited before
                     for (int j=0; j<adjList[hasil].Count; j++){
                         int hai = adjList[hasil][j].val;
                         if (visitedNode[hai] == 0){
-                            ada = true;
-                            fix = adjList[hasil][j];
+                            notvisited = true;
+                            temp = adjList[hasil][j];
                             break;
                         }
                     }
                     idx++;
                 }
             }
-            if (ada){
-                return TSPDFS(ctr, fix, tc, visitedNode, visual, res, simpulE);
+            // recursive
+            if (notvisited){
+                return TSPDFS(ctr, temp, tc, visitedNode, visual, res, simpulE);
             } else{
                 return TSPDFS(ctr, simpulE.Peek(), tc, visitedNode, visual, res, simpulE);
             }
