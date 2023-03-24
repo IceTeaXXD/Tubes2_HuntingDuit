@@ -237,7 +237,7 @@ class Graph {
 
             int count = 0;
             bool init = false, notvisited = false;
-            Node top = simpulE.Pop();
+            // Node top = simpulE.Pop();
 
             for(int i=adjList[awal].Count-1; i>=0; i--){
                 // push adjacency of the first elemen
