@@ -71,7 +71,7 @@ namespace Tubes2_HuntingDuit
             }
         }
 
-        public async void matToGird(int[] path, int[] way, List<int> treasures, int row, int col)
+        public async void matToGird(int[] path, List<int> way, List<int> treasures, int row, int col)
         {
             MazeGrid.RowHeadersVisible = false;
             MazeGrid.ColumnHeadersVisible = false;
@@ -113,7 +113,7 @@ namespace Tubes2_HuntingDuit
             }
 
             // Way path
-            for (int i = 0; i < way.Length; i++)
+            for (int i = 0; i < way.Count; i++)
             {
                 int x = way[i] / col;
                 int y = way[i] % col;
@@ -376,15 +376,19 @@ namespace Tubes2_HuntingDuit
                         mat[i, j] = 1;
                     }
                 }
-
-                int[] way = map.way();
+                
+                
+                
+                // Path Nodes
+                List<int> way = map.way();
                 List<int> treasures = map.treasures();
-                for (int i = 0; i < way.Length; i++)
+                for (int i = 0; i < way.Count; i++)
                 {
                     int x = way[i] / col;
                     int y = way[i] % col;
                     mat[x, y] = 0;
                 }
+
 
                 for (int i = 0; i < row; i++)
                 {
@@ -396,6 +400,13 @@ namespace Tubes2_HuntingDuit
                         else MazeGrid.Rows[i].Cells[j].Style.BackColor = Color.White;
                     }
                 }
+
+                // Start Node
+                Node start = map.nodes.Find(x => x.isStart);
+                int xStart = start.val / col;
+                int yStart = start.val % col;
+                MazeGrid.Rows[xStart].Cells[yStart].Value = "S";
+                MazeGrid.Rows[xStart].Cells[yStart].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 for (int i = 0; i < treasures.Count; i++)
                 {
