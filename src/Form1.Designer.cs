@@ -353,7 +353,7 @@
             Title.BackColor = Color.Transparent;
             Title.Font = new Font("Poppins Medium", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point);
             Title.ForeColor = Color.FromArgb(230, 211, 179);
-            Title.Location = new Point(251, 0);
+            Title.Location = new Point(232, 0);
             Title.Name = "Title";
             Title.Size = new Size(258, 57);
             Title.TabIndex = 2;

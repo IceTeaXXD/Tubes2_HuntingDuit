@@ -71,7 +71,7 @@ namespace Tubes2_HuntingDuit
             }
         }
 
-        public async void matToGird(int[] path, List<int> way, List<int> treasures, int row, int col)
+        public async void MatToGrid(int[] path, List<int> way, List<int> treasures, int start, int row, int col)
         {
             MazeGrid.RowHeadersVisible = false;
             MazeGrid.ColumnHeadersVisible = false;
@@ -111,7 +111,6 @@ namespace Tubes2_HuntingDuit
                     mat[i, j] = 1;
                 }
             }
-
             // Way path
             for (int i = 0; i < way.Count; i++)
             {
@@ -139,6 +138,11 @@ namespace Tubes2_HuntingDuit
                 MazeGrid.Rows[x].Cells[y].Style.BackColor = Color.Yellow;
                 MazeGrid.Rows[x].Cells[y].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
+
+            int xStart = start / col;
+            int yStart = start % col;
+            MazeGrid.Rows[xStart].Cells[yStart].Value = "S";
+            MazeGrid.Rows[xStart].Cells[yStart].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             int maxOcc = 0;
             for (int i = 0; i < path.Length; i++)
@@ -230,6 +234,7 @@ namespace Tubes2_HuntingDuit
             int[] pathresult = new int[row];
             string pathresultStr = "";
             Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             if (DFSButton.Checked)
             {
                 Node start = map.nodes.Find(x => x.isStart);
@@ -280,6 +285,7 @@ namespace Tubes2_HuntingDuit
                     pathresult[i] = res[i].val;
                 }
             }
+            stopwatch.Stop();
             for (int i = 1; i < pathresult.Length; i++)
             {
                 if (pathresult[i] - pathresult[i - 1] == 1)
@@ -299,7 +305,7 @@ namespace Tubes2_HuntingDuit
                     pathresultStr += "U ";
                 }
             }
-            matToGird(pathresult, map.way(), map.treasures(), row, col);
+            MatToGrid(pathresult, map.way(), map.treasures(), map.nodes.Find(x => x.isStart).val, row, col);
             Route.Text = "Route  : " + pathresultStr;
             Steps.Text = "Steps  : " + pathresult.Count().ToString();
             HashSet<int> pathHash = new HashSet<int>();
@@ -307,7 +313,7 @@ namespace Tubes2_HuntingDuit
             {
                 pathHash.Add(number);
             }
-            Runtime.Text = "Runtime : " + stopwatch.ElapsedMilliseconds.ToString() + " ms";
+            Runtime.Text = "Runtime : " + stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
             Nodes.Text = "Nodes : " + pathHash.Count().ToString();
             filename = "";
         }
@@ -376,9 +382,9 @@ namespace Tubes2_HuntingDuit
                         mat[i, j] = 1;
                     }
                 }
-                
-                
-                
+
+
+
                 // Path Nodes
                 List<int> way = map.way();
                 List<int> treasures = map.treasures();
@@ -402,9 +408,9 @@ namespace Tubes2_HuntingDuit
                 }
 
                 // Start Node
-                Node start = map.nodes.Find(x => x.isStart);
-                int xStart = start.val / col;
-                int yStart = start.val % col;
+                int start = map.nodes.Find(x => x.isStart).val;
+                int xStart = start / col;
+                int yStart = start % col;
                 MazeGrid.Rows[xStart].Cells[yStart].Value = "S";
                 MazeGrid.Rows[xStart].Cells[yStart].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
