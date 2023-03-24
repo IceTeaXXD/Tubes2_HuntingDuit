@@ -29,7 +29,20 @@ Aplikasi desktop untuk menyelesaikan persoalan maze treasure hunt. Program mengg
 - Visual Studio
 
 ## Usage
-- This program can only run in Windows, Go to your terminal, type **cd src**, and type **dotnet run**. If you have Visual Studio you can just click the build button
+1. This program can only run in Windows, 
+2. Go to your terminal, 
+3. Change the current directory to src
+
+    ```cd src```
+
+4. Build the program by using : 
+    ```dotnet run```
+
+    If you have Visual Studio you can just click the build button
+
+5. The program should be automatically launched!
+
+Tip : You can also use the prebuilt program by heading to the bin directory and launching the .exe file
 
 ## Author
 13521024, Ahmad Nadil
