@@ -36,6 +36,7 @@ Aplikasi desktop untuk menyelesaikan persoalan maze treasure hunt. Program mengg
     ```cd src```
 
 4. Build the program by using : 
+
     ```dotnet run```
 
     If you have Visual Studio you can just click the build button
